@@ -9,6 +9,7 @@ class Moment{
 		$this->setTimeZone();
 	}
 	private function _ensureTSLegal($ts){
+		// todo 处理类似于20161122这样的情况
 		if(is_numeric($ts)){
 			$ts = (int)$ts;
 		}
@@ -21,8 +22,9 @@ class Moment{
 
 		return $ts;
 	}
-	public function getCurTS(){
-		return time();
+
+	private function _genTSStr($fmt,$ts){
+		return date($fmt,$ts);
 	}
 
 	public function setTimeZone($str='Asia/Shanghai'){
@@ -34,43 +36,55 @@ class Moment{
 	}
 
 
-	public function getPrevMonthStr($ts=NULL,$separator='-'){
+	// 获得Str
+	// month Str
+	public function getPrevMonthStr($ts=NULL,$fmt='Y-m-d'){
 		$ts = $this->_ensureTSLegal($ts);
-		return date('Y'.$separator.'m',strtotime("-1 month",$ts));
+		return $this->getCurMonthStr(strtotime("-1 month",$ts),$fmt);
 	}
-
-	public function getNextMonthStr($ts=NULL,$separator='-'){
-		$ts = $this->_ensureTSLegal($ts);	
-		return date('Y'.$separator.'m',strtotime("+1 month",$ts));
-	}
-
-	public function getPrevDayStr($ts=NULL,$separator='-'){
+	public function getCurMonthStr($ts=NULL,$fmt='Y-m-d'){
 		$ts = $this->_ensureTSLegal($ts);
-		return date('Y'.$separator.'m'.$separator.'d',strtotime("-1 day",$ts));
+		return $this->_genTSStr($fmt,$ts);
 	}
-
-	public function getNextDayStr($ts=NULL,$separator='-'){
+	public function getNextMonthStr($ts=NULL,$fmt='Y-m-d'){
 		$ts = $this->_ensureTSLegal($ts);
-		return date('Y'.$separator.'m'.$separator.'d',strtotime("+1 day",$ts));
+		return $this->getCurMonthStr(strtotime("+1 month",$ts),$fmt);
 	}
 
-	public function getCurWeekStr($ts=NULL,$separator='-'){
-		$ts = $this->_ensureTSLegal($ts);
-		return date('Y'.$separator.'m'.$separator.'d',$ts-(date('N',$ts)-1)*86400);
-	}
-
-	public function getPrevWeekStr($ts=NULL,$separator='-'){
+	// week  Str
+	public function getPrevWeekStr($ts=NULL,$fmt='Y-m-d'){
 		$ts = $this->_ensureTSLegal($ts);
 		$ts -= 86400*7;
-		return date('Y'.$separator.'m'.$separator.'d',$ts-(date('N',$ts)-1)*86400);
+		return $this->getCurWeekStr($ts,$fmt);
 	}
-	public function getNextWeekStr($ts=NULL,$separator='-'){
+	public function getCurWeekStr($ts=NULL,$fmt='Y-m-d'){
+		$ts = $this->_ensureTSLegal($ts);
+		return $this->_genTSStr($fmt,$ts-(date('N',$ts)-1)*86400);
+	}
+	public function getNextWeekStr($ts=NULL,$fmt='Y-m-d'){
 		$ts = $this->_ensureTSLegal($ts);
 		$ts += 86400*7;
-		return date('Y'.$separator.'m'.$separator.'d',$ts-(date('N',$ts)-1)*86400);
+		return $this->getCurWeekStr($ts,$fmt);
+	}	
+
+	// day  Str
+	public function getPrevDayStr($ts=NULL,$fmt='Y-m-d'){
+		$ts = $this->_ensureTSLegal($ts);
+		return $this->getCurDayStr(strtotime("-1 day",$ts),$fmt);
+	}
+	public function getCurDayStr($ts=NULL,$fmt='Y-m-d'){
+		$ts = $this->_ensureTSLegal($ts);
+		return $this->_genTSStr($fmt,$ts);
+	}
+	public function getNextDayStr($ts=NULL,$fmt='Y-m-d'){
+		$ts = $this->_ensureTSLegal($ts);
+		return $this->getCurDayStr(strtotime("+1 day",$ts),$fmt);
 	}
 
-
+	// 获得时间戳
+	public function getCurTS(){
+		return time();
+	}
 	public function getMonthBeginTS($ts=NULL){
 		$ts = $this->_ensureTSLegal($ts);
 		return strtotime(date('Ym01',$ts));
@@ -99,7 +113,10 @@ class Moment{
 		return mktime(23, 59, 59, date('m',$ts), date('d',$ts), date('Y',$ts));
 	}
 
-
+	public function getTotalDaysInMonth($ts=NULL){
+		$ts = $this->_ensureTSLegal($ts);
+		return date('t',$ts);
+	}
 
 }
 ?>
