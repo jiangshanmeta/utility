@@ -9,9 +9,24 @@ class Moment{
 		$this->setTimeZone();
 	}
 	private function _ensureTSLegal($ts){
-		// todo 处理类似于20161122这样的情况
 		if(is_numeric($ts)){
 			$ts = (int)$ts;
+			// 处理201611或112016这种情况
+			if(preg_match('/^\d{6}$/i', $ts)){
+				if(in_array(substr($ts,0,2), ['19','20'])){
+					$year = substr($ts,0,4);
+					$month = substr($ts,4,2);
+				}else{
+					$year = substr($ts,2,4);
+					$month = substr($ts,0,2);
+				}
+				return strtotime($year.'-'.$month);
+			}
+			// 处理类似于20161122这样的情况
+			if(preg_match('/^(\d{4})(\d{2})(\d{2})$/i', $ts,$matches)){
+				return strtotime($matches[1].'-'.$matches[2].'-'.$matches[3]);
+			}
+			return $ts;
 		}
 		if(is_string($ts)){
 			$ts = $this->strtotime($ts);
@@ -38,15 +53,15 @@ class Moment{
 
 	// 获得Str
 	// month Str
-	public function getPrevMonthStr($ts=NULL,$fmt='Y-m-d'){
+	public function getPrevMonthStr($ts=NULL,$fmt='Y-m'){
 		$ts = $this->_ensureTSLegal($ts);
 		return $this->getCurMonthStr(strtotime("-1 month",$ts),$fmt);
 	}
-	public function getCurMonthStr($ts=NULL,$fmt='Y-m-d'){
+	public function getCurMonthStr($ts=NULL,$fmt='Y-m'){
 		$ts = $this->_ensureTSLegal($ts);
-		return $this->_genTSStr($fmt,$ts);
+		return $this->_genTSStr($fmt,$this->getMonthBeginTS($ts));
 	}
-	public function getNextMonthStr($ts=NULL,$fmt='Y-m-d'){
+	public function getNextMonthStr($ts=NULL,$fmt='Y-m'){
 		$ts = $this->_ensureTSLegal($ts);
 		return $this->getCurMonthStr(strtotime("+1 month",$ts),$fmt);
 	}
@@ -59,7 +74,7 @@ class Moment{
 	}
 	public function getCurWeekStr($ts=NULL,$fmt='Y-m-d'){
 		$ts = $this->_ensureTSLegal($ts);
-		return $this->_genTSStr($fmt,$ts-(date('N',$ts)-1)*86400);
+		return $this->_genTSStr($fmt,$this->getWeekBeginTS($ts-(date('N',$ts)-1)*86400));
 	}
 	public function getNextWeekStr($ts=NULL,$fmt='Y-m-d'){
 		$ts = $this->_ensureTSLegal($ts);
@@ -74,7 +89,7 @@ class Moment{
 	}
 	public function getCurDayStr($ts=NULL,$fmt='Y-m-d'){
 		$ts = $this->_ensureTSLegal($ts);
-		return $this->_genTSStr($fmt,$ts);
+		return $this->_genTSStr($fmt,$this->getDayBeginTS($ts));
 	}
 	public function getNextDayStr($ts=NULL,$fmt='Y-m-d'){
 		$ts = $this->_ensureTSLegal($ts);
