@@ -15,13 +15,10 @@ class Moment{
 			// 处理201611或112016这种情况
 			if(preg_match('/^\d{6}$/i', $ts)){
 				if(in_array(substr($ts,0,2), ['19','20'])){
-					$year = substr($ts,0,4);
-					$month = substr($ts,4,2);
+					return DateTime::createFromFormat('Ym', $ts)->format('U');
 				}else{
-					$year = substr($ts,2,4);
-					$month = substr($ts,0,2);
+					return DateTime::createFromFormat('mY', $ts)->format('U');
 				}
-				return strtotime($year.'-'.$month);
 			}
 			// 处理类似于20161122这样的情况
 			// issue https://github.com/bcit-ci/CodeIgniter/issues/4917
