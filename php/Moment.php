@@ -11,6 +11,7 @@ class Moment{
 	private function _ensureTSLegal($ts){
 		if(is_numeric($ts)){
 			$ts = (int)$ts;
+			// 下面两个判断借鉴ci的date_helper的写法，顺便发现了一个bug
 			// 处理201611或112016这种情况
 			if(preg_match('/^\d{6}$/i', $ts)){
 				if(in_array(substr($ts,0,2), ['19','20'])){
@@ -23,8 +24,11 @@ class Moment{
 				return strtotime($year.'-'.$month);
 			}
 			// 处理类似于20161122这样的情况
-			if(preg_match('/^(\d{4})(\d{2})(\d{2})$/i', $ts,$matches)){
-				return strtotime($matches[1].'-'.$matches[2].'-'.$matches[3]);
+			// issue https://github.com/bcit-ci/CodeIgniter/issues/4917
+			// fix commit https://github.com/bcit-ci/CodeIgniter/commit/820d9cdaac9a9c0371404ce82b60a26ed3ac938f
+			// 我本来的写法是正则匹配一段一段来
+			if(preg_match('/^\d{8}$/i',$ts)){
+				return DateTime::createFromFormat('Ymd', $ts)->format('U');
 			}
 			return $ts;
 		}
