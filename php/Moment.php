@@ -40,7 +40,9 @@ class Moment{
 	}
 
 	private function _genTSStr($fmt,$ts){
-		return date($fmt,$ts);
+		$date = new DateTime();
+		$date->setTimestamp($ts);
+		return $date->format($fmt);
 	}
 
 	public function setTimeZone($str='Asia/Shanghai'){
@@ -48,7 +50,7 @@ class Moment{
 	}
 
 	public function strtotime($str){
-		return strtotime($str);
+		return (new DateTime($str))->format('U');
 	}
 
 
