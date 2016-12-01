@@ -4,6 +4,7 @@ if(!function_exists('camelize')){
 		return strtolower($str[0]).substr(str_replace(' ', '', ucwords(preg_replace('/[\s_-]+/', ' ', $str))), 1);
 	}
 }
+
 if(!function_exists('str_supplant')){
 	function str_supplant($orginal_str,$replace_array){
 		if(!is_array($replace_array)){
@@ -17,5 +18,14 @@ if(!function_exists('str_supplant')){
 		}
 		return str_replace($paramNames,$paramValues,$orginal_str);
 	}
+}
+
+if(!function_exists('is_ajax_request')){
+    function is_ajax_request() {
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
+            return true;
+        }
+        return false;
+    }	
 }
 ?>
