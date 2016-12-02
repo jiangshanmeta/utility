@@ -28,4 +28,10 @@ if(!function_exists('is_ajax_request')){
         return false;
     }	
 }
+
+if(!function_exists('get_client_ip')){
+	function get_client_ip(){
+		return $_SERVER['REMOTE_ADDR'];
+	}
+}
 ?>

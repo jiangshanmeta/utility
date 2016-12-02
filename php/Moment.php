@@ -133,7 +133,22 @@ class Moment{
 
 	public function getTotalDaysInMonth($ts=NULL){
 		$ts = $this->_ensureTSLegal($ts);
-		return date('t',$ts);
+		return (int)date('t',$ts);
+	}
+
+	public function getDayInYear($ts=NULL){
+		$ts = $this->_ensureTSLegal($ts);
+		return (int)date('z',$ts);
+	}
+
+	public function getDayInMonth($ts=NULL){
+		$ts = $this->_ensureTSLegal($ts);
+		return (int)date('j',$ts);
+	}
+
+	public function getDayInWeek($ts=NULL){
+		$ts = $this->_ensureTSLegal($ts);
+		return (int)date('w',$ts);		
 	}
 
 }
