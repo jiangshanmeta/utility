@@ -69,4 +69,20 @@ if(!function_exists('curl_get')){
 		return $rst;
 	}
 }
+
+// 之所以封装这个是因为经常用explode，但是原生explode返回的数组中会包含空字符串，一般是不需要的数据
+if(!function_exists('explode_unempty')){
+	function explode_unempty($delimiter,$string,$limit=NULL){
+		$temp = explode($delimiter, $string);
+		$rst = [];
+		if(is_array($temp)&&count($temp)>0){
+			foreach ($temp as $value) {
+				if($value!==''){
+					$rst[] = $value;
+				}
+			}
+		}
+		return array_slice($rst,0,$limit);
+	}
+}
 ?>
