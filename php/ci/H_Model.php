@@ -18,5 +18,10 @@ class H_Model extends CI_Model{
 		return self::$_cache_models[$_cache_name];
 	}
 
+	// 为了子类中获得孙子类(最终类)的类名，进而使用孙子类(最终类)的静态属性
+	final protected function get_submodel_name(){
+		return get_class($this);
+	}
+
 }
 ?>
