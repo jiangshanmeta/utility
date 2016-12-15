@@ -57,6 +57,8 @@ class Record_Model extends H_Model{
 			if(isset($data[$key])){
 				$this->data[$key] = $data[$key];
 				$this->field_list[$key]->init($data[$key]);
+			}else{
+				$this->field_list[$key]->init(NULL);
 			}
 		}
 		$this->is_inited = true;
