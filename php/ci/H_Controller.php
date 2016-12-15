@@ -1,6 +1,7 @@
 <?
 defined('BASEPATH') OR exit('No direct script access allowed');
 if (! defined('__DEFINED_WHERE_TYPE__')) {
+    // 为了数据库查询的时候写的常量
     define("__DEFINED_WHERE_TYPE__", "__DEFINED_WHERE_TYPE__");
     define("WHERE_TYPE_WHERE", 0);
     define("WHERE_TYPE_IN", 1);
@@ -12,14 +13,28 @@ if (! defined('__DEFINED_WHERE_TYPE__')) {
     define("WHERE_TYPE_WHERE_LTE", 24);
     define("WHERE_TYPE_WHERE_NE", 25);
 
+    // 为了设定页面类型时设定的常量,页面类型设置主要为了出错时的展示
+    define("VIEW_TYPE_HTML", 1);
+    define("VIEW_TYPE_JSON", 2);
+    define("VIEW_TYPE_PAGE", 3);
 }
 
 class H_Controller extends CI_Controller{
+    public $viewType = VIEW_TYPE_HTML;
 	public function __construct(){
 		parent::__construct();
 		$this->controller_name = $this->uri->rsegments[1];
 		$this->method_name = $this->uri->rsegments[2];
+
+        // 页面类型默认是html，如果是ajax请求默认改为json，如果是js load一个页面，需要手动设置页面类型
+        if(is_ajax_request()){
+            $this->setViewType(VIEW_TYPE_JSON);
+        }
 	}
+
+    final public function setViewType($viewType){
+        $this->viewType = $viewType;
+    }
 
     final protected function exportData($data,$rstno){
         $ret = array(

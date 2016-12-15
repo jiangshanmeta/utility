@@ -85,4 +85,15 @@ if(!function_exists('explode_unempty')){
 		return array_slice($rst,0,$limit);
 	}
 }
+
+// 因为常用的处理都是处理成array而不是stdClass，所以封装了这个方法
+if(!function_exists('json_decode_array')){
+	function json_decode_array($json,$depth = 512,$options = 0){
+		$rst = json_decode($json,true,$depth,$options);
+		if($rst===NULL){
+			$rst = [];
+		}
+		return $rst;
+	}
+}
 ?>
