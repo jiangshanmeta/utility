@@ -60,7 +60,13 @@ class Record_Model extends H_Model{
 			}
 		}
 		$this->is_inited = true;
+		$this->do_sth_after_init();
 	}
+
+	public function do_sth_after_init(){
+		
+	}
+
 	final public function init_with_part_data(array $data){
 		foreach ($data as $key => $value) {
 			$this->data[$key] = $value;
