@@ -246,6 +246,18 @@ class Record_Model extends H_Model{
 		return true;
 	}
 
+	function gen_vm_data(array $arr,array $org_arr = [],$prefix='org_'){
+		$rst = [];
+		foreach ($arr as $key) {
+			$rst[$key] = $this->field_list[$key]->gen_vm_value();
+		}
+		foreach ($org_arr as $key) {
+			$rst[$prefix.$key] = $this->field_list[$key]->value;
+		}
+		$rst['_id'] = $this->id;
+		return $rst;
+	}
+
 
 } 
 ?>

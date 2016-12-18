@@ -127,5 +127,19 @@ class List_Model extends H_Model{
 		$this->_checkWhere();
 		$this->record_count = $this->db->count_all_results($this->tableName);
 	}
+	function gen_vm_array(array $arr,array $org_arr = [],$prefix='org_'){
+		$rst = [];
+		foreach ($this->record_list as $this_record) {
+			$rst[] = $this_record->gen_vm_data($arr,$org_arr,$prefix);
+		}
+		return $rst;
+	}
+	function gen_vm_hash(array $arr,array $org_arr = [],$prefix='org_'){
+		$rst = [];
+		foreach ($this->record_list as $this_record) {
+			$rst[$this_record->id] = $this_record->gen_vm_data($arr,$org_arr,$prefix);
+		}
+		return $rst;
+	}
 }
 ?>
