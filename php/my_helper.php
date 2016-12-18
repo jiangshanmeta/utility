@@ -96,4 +96,21 @@ if(!function_exists('json_decode_array')){
 		return $rst;
 	}
 }
+
+// 判断是否是json
+if(!function_exists('is_json')){
+	function is_json($json){
+		if(!is_string($json)){
+			return false;
+		}
+		return json_decode($json) !== NULL;
+	}
+}
+
+// 判断是否是关联数组
+if(!function_exists('is_assoc_array')){
+	function is_assoc_array($array) {
+		return is_array($array) && (count($array)===0 || count(array_diff_key($array, array_keys($array) ))!==0 );
+	}
+}
 ?>

@@ -1,6 +1,5 @@
 <?
 class Fields{
-	static protected $_emun_pool = [];
 	protected $showName;
 	protected $name;
 	protected $isMustInput;
@@ -13,13 +12,13 @@ class Fields{
 		$this->isMustInput = $isMustInput;
 	}
 	public function init($value){
-		$this->value = $value;
+		$this->value = $this->gen_value($value);
 	}
 	public function gen_value($input){
 		return $input;
 	}
 	public function setDefault($value){
-		$this->default = $value;
+		$this->default = $this->gen_value($value);
 	}
 	public function gen_show_value(){
 		return $this->value;
@@ -32,5 +31,4 @@ class Fields{
 		return $this->gen_show_value();
 	}
 }
-
 ?>

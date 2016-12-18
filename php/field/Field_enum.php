@@ -12,26 +12,12 @@ class Field_enum extends Field_int{
 		}
 
 	}
-	public function init($value){
-		$value = (int)$value;
-		if(!in_array($value, $this->can_select)){
-			$value = $this->can_select[0];
-		}
-		parent::init($value);
-	}
 	public function gen_value($input){
-		$input = (int)$input;
+		$input = parent::gen_value($input);
 		if(!in_array($input, $this->can_select)){
 			$input = $this->can_select[0];
 		}
 		return $input;
-	}
-
-	public function setDefault($value){
-		if(!in_array($value, $this->can_select)){
-			$value = $this->can_select[0];
-		}
-		parent::setDefault($value);
 	}
 
 	public function gen_show_value(){

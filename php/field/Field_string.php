@@ -5,14 +5,8 @@ class Field_string extends Fields{
 		parent::__construct($showName,$name,$isMustInput);
 		$this->setDefault('');
 	}
-	public function init($value){
-		parent::init((string)$value);
-	}
 	public function gen_value($input){
 		return (string)$input;
-	}
-	public function setDefault($value){
-		parent::setDefault((string)$value);
 	}
 }
 ?>
