@@ -141,5 +141,22 @@ class List_Model extends H_Model{
 		}
 		return $rst;
 	}
+    function mapReduce($opt){
+        $commandArr = [
+            'mapreduce'=>$this->tableName,
+            'map'=>$opt['map'],
+            'reduce'=>$opt['reduce'],
+            'out'=>['inline'=>1],
+        ];
+        isset($opt['query']) && $commandArr['query'] = $opt['query'];
+        isset($opt['sort']) && $commandArr['sort'] = $opt['sort'];
+        isset($opt['limit']) && $commandArr['limit'] = $opt['limit'];
+
+        $rst = $this->db->command($commandArr);
+
+        return $rst['results'];
+    }
+
+	
 }
 ?>
