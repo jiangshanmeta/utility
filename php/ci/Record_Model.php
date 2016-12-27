@@ -18,7 +18,8 @@ class Record_Model extends H_Model{
 		$this->tableName = & $subclassName::$tbName;
 	}
 
-	final public function genMongoId($id=NULL){
+	// 这个方法只是个工具方法，和实例无关，所以改为静态方法
+	static public function genMongoId($id=NULL){
 		if($id===NULL || !MongoId::isValid($id) ){
 			return new MongoId();
 		}
@@ -28,7 +29,7 @@ class Record_Model extends H_Model{
         return $id;
 	}
 	final public function init_with_id($id){
-		return $this->init_with_where(['_id'=>$this->genMongoId($id)]);
+		return $this->init_with_where(['_id'=>self::genMongoId($id)]);
 	}
 
 	final public function init_with_foreignId($field,$value){
@@ -72,7 +73,7 @@ class Record_Model extends H_Model{
 		$this->do_sth_after_init();
 	}
 
-	public function do_sth_after_init(){
+	protected function do_sth_after_init(){
 		
 	}
 
@@ -85,12 +86,12 @@ class Record_Model extends H_Model{
 		}
 	}
 
-	public function do_sth_before_insert(array $data){
+	protected function do_sth_before_insert(array $data){
 		return $data;
 	}
 	final public function insert_db(array $data){
 		if(isset($this->field_list['_id']) && !isset($data['_id'])){
-			$data['_id'] = $this->genMongoId();
+			$data['_id'] = self::genMongoId();
 		}
 		$data = $this->do_sth_before_insert($data);
 		$this->db->insert($this->tableName,$data);
@@ -102,11 +103,11 @@ class Record_Model extends H_Model{
 		$this->do_sth_after_insert($this->id,$data);
 		return $this;
 	}
-	public function do_sth_after_insert($id,$data){
+	protected function do_sth_after_insert($id,$data){
 
 	}	
 
-	public function do_sth_before_update($data){
+	protected function do_sth_before_update($data){
 		return $data;
 	}
 	final public function update_db(array $data,$id=NULL){
@@ -116,18 +117,18 @@ class Record_Model extends H_Model{
         if ($id === null){
             $id = $this->id;
         }
-        $real_id = $this->genMongoId($id);
+        $real_id = self::genMongoId($id);
         $data = $this->do_sth_before_update($data);
         $this->db->where(array('_id'=>$real_id))->update($this->tableName,$data);
         $this->init_with_part_data($data);
         $this->do_sth_after_update($id,$data);
         return $this;		
 	}
-	public function do_sth_after_update($id,$data){
+	protected function do_sth_after_update($id,$data){
 
 	}
 
-	public function do_sth_before_delete(){
+	protected function do_sth_before_delete(){
 
 	}
 	final public function delete_db($id){
@@ -138,25 +139,25 @@ class Record_Model extends H_Model{
             $this->do_sth_before_delete();
         }
         $effect = 0;
-        $this->db->where(array('_id'=>$this->genMongoId($id)))->delete($this->tableName);
+        $this->db->where(array('_id'=>self::genMongoId($id)))->delete($this->tableName);
         $effect += 1;
         if ($this->delete_trigger && $this->is_inited){
             $this->do_sth_after_delete($id,$this->data);
         }
         return $effect;
 	}
-	public function do_sth_after_delete($id,$data){
+	protected function do_sth_after_delete($id,$data){
 
 	}
 
-	public function do_sth_before_inc($data){
+	protected function do_sth_before_inc($data){
 		return $data;
 	}
 	final public function inc_db(array $data,$id=NULL){
         if ($id===null){
             $id = $this->id;
         }
-        $real_id = $this->genMongoId($id);
+        $real_id = self::genMongoId($id);
         $data = $this->do_sth_before_inc($data,$id);
         $this->db->where(array('_id'=>$real_id))->increment($this->tableName,$data);
         return $this;
@@ -167,7 +168,7 @@ class Record_Model extends H_Model{
 		if($id===NULL){
 			$id = $this->id;
 		}
-		$real_id = $this->genMongoId($id);
+		$real_id = self::genMongoId($id);
 		$this->db->where(['_id'=>$real_id])->push($field,$data)->update($this->tableName);
 		return $this;
 	}
@@ -175,7 +176,7 @@ class Record_Model extends H_Model{
 		if($id===NULL){
 			$id = $this->id;
 		}
-		$real_id = $this->genMongoId($id);
+		$real_id = self::genMongoId($id);
 		$this->db->where(['_id'=>$real_id])->pull($field,$data)->update($this->tableName);
 		return $this;	
 	}
@@ -183,7 +184,7 @@ class Record_Model extends H_Model{
 		if($id===NULL){
 			$id = $this->id;
 		}
-		return $this->pull_db($field,['_id'=>$this->genMongoId($sub_id)],$id);
+		return $this->pull_db($field,['_id'=>self::genMongoId($sub_id)],$id);
 	}
 	public function check_inited($msg='数据有误',$status=-1){
         if(!$this->is_inited){
@@ -223,9 +224,9 @@ class Record_Model extends H_Model{
 			$dbName = $this->tableName;
 		}
 		if(!isset($data['_id'])){
-			$data['_id'] = $this->genMongoId();
+			$data['_id'] = self::genMongoId();
 		}
-		$this->db->where(['_id'=>$this->genMongoId($otherId)])->push($field,$data)->update($dbName);
+		$this->db->where(['_id'=>self::genMongoId($otherId)])->push($field,$data)->update($dbName);
 		return $this;
 	}
 
@@ -238,7 +239,7 @@ class Record_Model extends H_Model{
 		foreach ($data as $key => $value) {
 			$realData[$field.'.$.'.$key] = $value;
 		}
-		$this->db->where(['_id'=>$this->genMongoId($otherId),$field.'._id'=>$this->genMongoId($selfId)])->update($dbName,$realData);
+		$this->db->where(['_id'=>self::genMongoId($otherId),$field.'._id'=>self::genMongoId($selfId)])->update($dbName,$realData);
 		return $this;
 	}
 
