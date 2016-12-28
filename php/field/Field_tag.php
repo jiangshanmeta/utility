@@ -9,6 +9,7 @@ class Field_tag extends Field_array{
 		if($tableName!=''){
 			$this->setEnumPoolKey($tableName.'_'.$name);
 		}
+		$this->typ = 'Field_tag';
 	}
 	function setEnum($enum){
 		if($this->_enum_pool_key){
@@ -29,8 +30,19 @@ class Field_tag extends Field_array{
 
 	function gen_value($input){
 		$input = parent::gen_value($input);
+		foreach ($input as $key => $value) {
+			$input[$key] = (int)$value;
+		}
 		$input = array_values(array_intersect($this->can_select, $input));
 		return $input;
+	}
+
+	function setFull(){
+		$this->value = &$this->can_select;
+	}
+
+	function has($input){
+		return in_array($input, $this->value);
 	}
 
 

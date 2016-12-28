@@ -10,7 +10,7 @@ class Field_enum extends Field_int{
 		if($tableName!=''){
 			$this->setEnumPoolKey($tableName.'_'.$name);			
 		}
-
+		$this->typ = 'Field_enum';
 	}
 	public function gen_value($input){
 		$input = parent::gen_value($input);

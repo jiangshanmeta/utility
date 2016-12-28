@@ -3,13 +3,11 @@ require_once('Fields.php');
 class Field_mongoid extends Fields{
 	function __construct($showName,$name,$isMustInput=FALSE){
 		parent::__construct($showName,$name,$isMustInput);
+		$this->typ = 'Field_mongoid';
 	}
 	function gen_value($input){
 		if(MongoId::isValid($input)){
-			if(is_string($input)){
-				$input = new MongoId($input);
-			}
-			return $input;
+			return (string)$input;
 		}
 		return NULL;
 	}

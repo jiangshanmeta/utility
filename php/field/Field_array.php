@@ -4,6 +4,7 @@ class Field_array extends Fields{
 	function __construct($showName,$name,$isMustInput=FALSE){
 		parent::__construct($showName,$name,$isMustInput);
 		$this->setDefault([]);
+		$this->typ = 'Field_array';
 	}
 	function gen_value($value){
 		if(is_string($value)){
@@ -18,5 +19,4 @@ class Field_array extends Fields{
 		return json_encode($this->value);
 	}
 }
-
 ?>
