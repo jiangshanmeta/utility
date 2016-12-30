@@ -188,22 +188,8 @@ class Record_Model extends H_Model{
 	}
 	public function check_inited($msg='数据有误',$status=-1){
         if(!$this->is_inited){
-        	$CI =& get_instance();
-        	switch($CI->viewType){
-        		case VIEW_TYPE_HTML:
-        			echo $CI->template->load('default_page', 'common/404','',TRUE);
-        			break;
-        		case VIEW_TYPE_JSON:
-		            $jsonRst = $status;
-		            $jsonData = array();
-		            $jsonData['err']['msg'] = $msg;
-		            echo $CI->exportData($jsonData,$jsonRst);   
-        			break;
-        		case VIEW_TYPE_PAGE:
-        			echo $CI->template->load('default_overlay', 'common/404','',TRUE);
-        			break;
-        	}
-        	exit();
+            $CI =& get_instance();
+            $CI->show_error($msg,$status);
         }
         return $this;
 	}
