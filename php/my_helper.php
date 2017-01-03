@@ -113,4 +113,18 @@ if(!function_exists('is_assoc_array')){
 		return is_array($array) && (count($array)===0 || count(array_diff_key($array, array_keys($array) ))!==0 );
 	}
 }
+
+// addtoset 判断是否重复的push
+if(!function_exists('array_addToSet')){
+	function array_addToSet(&$array,$val){
+		$args = func_get_args();
+		for($i=1;$i<func_num_args();$i++){
+			if(!in_array($args[$i], $array)){
+				$array[] = $args[$i];
+			}
+		}
+	}
+}
+
+
 ?>
