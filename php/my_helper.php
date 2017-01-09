@@ -126,5 +126,16 @@ if(!function_exists('array_addToSet')){
 	}
 }
 
+// 处理文件的函数封装
+if(!function_exists('get_extension')){
+	function get_extension($filename){
+		return pathinfo($filename,PATHINFO_EXTENSION);
+	}
+}
 
+if(!function_exists('get_filename')){
+	function get_filename($filename){
+		return pathinfo($filename,PATHINFO_FILENAME);
+	}
+}
 ?>
