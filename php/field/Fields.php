@@ -3,6 +3,8 @@ class Fields{
 	protected $showName;
 	protected $name;
 	protected $isMustInput;
+	protected $editorClass;
+	public $tips;
 	public $value;
 	public $default;
 	static $_enum_pool = [];
@@ -29,6 +31,30 @@ class Fields{
 	}
 	public function gen_vm_value(){
 		return $this->gen_show_value();
+	}
+
+	final function build_input_name($typ){
+		switch ($typ) {
+			case 0:
+				$inputName = 'create_'.$this->name;
+				break;
+			case 1:
+				$inputName = 'modify_'.$this->name;
+				break;
+			case 2:
+				$inputName = 'search_'.$this->name;
+			default:
+				$inputName = $this->name;
+				break;
+		}
+		return $inputName;
+	}
+	function gen_editor($typ){
+
+	}
+
+	final function setEditorClass($className){
+		$this->editorClass = $className;
 	}
 }
 ?>

@@ -14,5 +14,11 @@ class Field_pwd extends Field_string{
 	function setDefault($default){
 		$this->default = (string)$default;
 	}
+	public function gen_editor($typ){
+		$inputName = $this->build_input_name($typ);
+		return "<input type=\"password\" class=\"$this->editorClass\"  name=\"$inputName\" id=\"$inputName\"   >";
+	}
+
+
 }
 ?>

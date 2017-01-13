@@ -7,6 +7,7 @@ class Record_Model extends H_Model{
 	public $field_list = [];
 	public $data = [];
 	public $tableName;
+	private $lastError = ['msg'=>'','id'=>'','errno'=>-1];
 	function __construct(){
 		parent::__construct();
 
@@ -43,6 +44,8 @@ class Record_Model extends H_Model{
 		if($query->num_rows()>0){
 			$result = $query->row_array();
 			$this->init_with_data($result['_id'],$result);		
+		}else{
+			$this->setLastError('no data');
 		}
 		return $this;		
 	}
@@ -243,6 +246,15 @@ class Record_Model extends H_Model{
 		}
 		$rst['_id'] = $this->id;
 		return $rst;
+	}
+
+	final function setLastError($msg='',$errno=-1,$id=''){
+		$this->lastError['msg'] = $msg;
+		$this->lastError['errno'] = $errno;
+		$this->lastError['id'] = $id;
+	}
+	final function getLastError(){
+		return $this->lastError;
 	}
 
 

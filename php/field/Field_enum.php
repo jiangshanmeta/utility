@@ -45,6 +45,27 @@ class Field_enum extends Field_int{
 		$this->setDefault($this->can_select[0]);
 	}
 
+	public function gen_editor($typ){
+		switch ($typ) {
+			case 0:
+				$value = $this->gen_value($this->default);
+				break;
+			case 1:
+				$value = $this->value;
+				break;
+			default:
+				$value = $this->gen_value($this->default);
+				break;
+		}
+		$inputName = $this->build_input_name($typ);
+		$string = "<select class=\"$this->editorClass\" value=\"$value\" name=\"$inputName\"  id=\"$inputName\"    >";
+		foreach ($this->enum as $key => $this_enum) {
+			$string .= "<option ".($key==$value?'selected':'')." value=\"$key\" >$this_enum</option>";
+		}
+		$string .= "</select>";
+		return $string;
+	}
+
 
 }
 ?>

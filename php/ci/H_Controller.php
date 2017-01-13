@@ -79,6 +79,28 @@ class H_Controller extends CI_Controller{
         exit();
     }
 
+    function create(){
+
+    }
+
+    function doCreate(){
+
+    }
+
+
+    function update(){
+
+    }
+    function doUpdate(){
+
+    }
+
+
+    function doDelete($typ,$id){
+        
+    }
+
+
 
 }
 
