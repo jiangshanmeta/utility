@@ -83,21 +83,65 @@ class H_Controller extends CI_Controller{
 
     }
 
-    function doCreate(){
+    function doCreate($typ,$id){
+        $modelName = 'records/'.ucfirst($typ).'_model';
+        $this->load->model($modelName,'dataInfo');
 
+        $data = [];
+        foreach ($this->dataInfo->field_list as $key => $value) {
+            $v = $this->input->post($key);
+            if($v===NULL){
+                if($this->dataInfo->field_list[$key]->isMustInput){
+                    $this->show_error("请填写必填字段");
+                }
+                continue;
+            }
+            $data[$key] = $this->dataInfo->field_list[$key]->gen_value($v);
+        }
+        $id = $this->dataInfo->insert_db($data);
+
+        $this->exportData(['id'=>(string)$id],1);
     }
 
 
     function update(){
 
     }
-    function doUpdate(){
+    function doUpdate($typ,$id){
+        $modelName = 'records/'.ucfirst($typ).'_model';
+        $this->load->model($modelName,'dataInfo');
+        $this->dataInfo->init_with_id($id);
+        $this->dataInfo->check_inited();
 
+        $data = [];
+        foreach ($this->dataInfo->field_list as $key => $value) {
+            $v = $this->input->post($key);
+            if($v===NULL){
+                continue;
+            }
+            $newValue = $this->dataInfo->field_list[$key]->gen_value($v);
+            if($newValue!==$this->dataInfo->field_list[$key]->value){
+                $data[$key] = $newValue;
+            }
+        }
+        if(empty($data)){
+            $this->show_error("无变化");
+        }
+        $this->dataInfo->update_db($data);
+
+        $this->exportData([],1);
     }
 
 
     function doDelete($typ,$id){
-        
+        $modelName = 'records/'.ucfirst($typ).'_model';
+        $this->load->model($modelName,'dataInfo');
+        if(!$this->dataInfo->check_can_delete($id)){
+            $lastError = $this->dataInfo->getLastError();
+            $this->show_error($lastError['msg'],$lastError['errno']);
+        }
+        $this->dataInfo->delete_db($id);
+        $this->exportData([],1);
     }
 
 

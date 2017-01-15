@@ -232,7 +232,15 @@ class Record_Model extends H_Model{
 		return $this;
 	}
 
-	public function check_can_delete(){
+	final public function update_sub_db($field,array $data,$subId){
+		$realData = [];
+		foreach ($data as $key => $value) {
+			$realData[$field.'.$.'.$key] = $value;
+		}
+		$this->db->where([$field.'._id'=>self::genMongoId($subId),'_id'=>self::genMongoId($this->id)])->update($this->tableName,$realData);
+	}
+
+	public function check_can_delete($id){
 		return true;
 	}
 
