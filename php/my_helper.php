@@ -126,16 +126,40 @@ if(!function_exists('array_addToSet')){
 	}
 }
 
-// 处理文件的函数封装
+// 获取文件扩展名
 if(!function_exists('get_extension')){
 	function get_extension($filename){
 		return pathinfo($filename,PATHINFO_EXTENSION);
 	}
 }
 
+// 获取文件名
 if(!function_exists('get_filename')){
 	function get_filename($filename){
 		return pathinfo($filename,PATHINFO_FILENAME);
 	}
 }
+
+// 判断是否是偶数
+if(!function_exists('is_even')){
+	function is_even($num){
+		if(!is_int($num)){
+			return false;
+		}
+		return !($num%2);
+	}
+}
+
+// 判断是否是奇数
+if(!function_exists('is_odd')){
+	function is_odd($num){
+		if(!is_int($num)){
+			return false;
+		}
+		return (bool)($num%2);
+	}
+}
+
+
+
 ?>
