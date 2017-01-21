@@ -47,6 +47,19 @@ class Utility{
 		return $gender%2===1?0:1;
 	}
 
+	// 校验车牌号合法性
+	public function chk_plateno($plateno){
+		$plateno = strtoupper(trim($plateno));
+		if($plateno==='临牌'){
+			return true;
+		}
+		$len = mb_strlen($plateno,'UTF8');
+		if($len===7||$len===8){
+			return true;
+		}
+		return false;
+	}
+
 
 }
 ?>
