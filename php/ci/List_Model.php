@@ -122,10 +122,18 @@ class List_Model extends H_Model{
         $this->limit = 2000;
         $this->orderBy = ['_id'=>'desc'];
 	}
+	final public function count_data(){
+		$this->db->clear();
+		$count = $this->db->count_all_results($this->tableName);
+		$this->db->clear();
+		return $count;
+	}
 	final public function count_data_with_where(){
 		$this->db->clear();
 		$this->_checkWhere();
-		$this->record_count = $this->db->count_all_results($this->tableName);
+		$count = $this->db->count_all_results($this->tableName);
+		$this->db->clear();
+		return $count;
 	}
 	function gen_vm_array(array $arr,array $org_arr = [],$prefix='org_'){
 		$rst = [];
@@ -155,6 +163,18 @@ class List_Model extends H_Model{
         $rst = $this->db->command($commandArr);
 
         return $rst['results'];
+    }
+
+    final public function gen_id_array($is_object = false){
+    	if($is_object){
+    		$rst = [];
+    		foreach ($this->record_list as $key => $value) {
+    			$rst[] = new MongoId($key);
+    		}
+    		return $rst;
+    	}else{
+    		return array_keys($this->record_list);
+    	}
     }
 
 	
