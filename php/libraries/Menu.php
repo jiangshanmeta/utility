@@ -1,30 +1,23 @@
 <?
 class Menu{
-	private $all_menus;
-	function __construct(){
-		$this->all_menus = [];
+	protected $_all_menus;
+	function __construct($config = array()){
+		if(!empty($config)){
+			$this->set_all_menus($config);
+		}
 	}
 
-	// 加载全部菜单
-	function _load_all_menus(){
-		$this->all_menus['index'] = [
-			'sub_menus'=>[
-				'index'=>[
-					'href'=>'http://jiangshanmeta.github.io',
-					'name'=>'首页',
-				]
-			],
-			'name'=>'首页',
-			'icon'=>'naive',
-		];
-
-
+	// 把具体的菜单写到一个config文件里而不是写到library类里面更合适
+	function set_all_menus($config){
+		if(is_array($config)){
+			$this->_all_menus = $config;
+		}
 	}
 
 	function load_menu(){
-		// 具体的根据业务逻辑来写
-		$this->_load_all_menus();
-		return $this->all_menus;
+		// 具体的根据业务逻辑来写,还有权限之类的
+
+		return $this->_all_menus;
 	}
 }
 ?>
