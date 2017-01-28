@@ -1,0 +1,78 @@
+<style>
+.vue-menu-container{
+	background-color:#2b2b2b;
+	color:#e0e0e0;	
+}
+.vue-menu-container *{
+	margin:0;
+	padding:0;
+	box-sizing:border-box;
+	list-style:none;
+}
+
+.vue-menu-link{
+	display:block;
+	padding:10px 15px;
+	color:#e0e0e0;
+	text-decoration:none;
+	cursor:pointer;
+}
+.vue-menu-itemlink{
+	border-top:1px solid #3d3d3d;
+}
+.vue-menu-itemlink:hover{
+	background-color:#333;
+}
+.vue-menu-itemlink.active{
+	background-color:#d64635;
+	color:#fff;
+	border-top-color:transparent;
+}
+
+.vue-menu-subitemlink{
+	padding-left:40px;
+}
+.vue-menu-subitemlink:hover{
+	background-color:#555;
+}
+.vue-menu-subitemlink.active{
+	color:#d64635;
+	background-color:#444;
+}
+</style>
+<script type="text/x-template" id="vue-menu">
+<div class="vue-menu-container">
+	<ul class="">
+		<li v-for="(menu,menu_index) in menus" v-on:click="changeShowMenu(menu_index)" class="vue-menu-item">
+			<a class="vue-menu-link vue-menu-itemlink" v-bind:class="{active:menu_index==menu_key}">{{menu.name}}</a>
+			
+			<ul v-show="menu_index===showMenu" class="vue-menu-submenu" >
+				<li v-for="(sub_menu,sub_menu_index) in menu.menu_array" class="vue-menu-subitem">
+					<a v-bind:href="sub_menu.href" class="vue-menu-link vue-menu-subitemlink" v-bind:class="{active:sub_menu_key===sub_menu_index&&menu_index===menu_key}">{{sub_menu.name}}</a>
+					
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div>
+</script>
+<script>
+Vue.component("vue-menu",{
+	template:"#vue-menu",
+	props:['menus','menu_key','sub_menu_key'],
+	methods:{
+		changeShowMenu:function(showMenu){
+			this.showMenu = showMenu;
+		}
+	},
+	data:function(){
+		return {
+			showMenu:'',
+		}
+	},
+	created:function(){
+		this.showMenu = this.menu_key
+	}
+})
+
+</script>
