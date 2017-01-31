@@ -6,13 +6,15 @@ Widget.prototype = {
 	constructor:Widget,
 	// 观察者模式
 	on:function(type,handler){
-		if(!this._handlers){
-			this._handlers = {};
+		if(gettype(handler)==='function'){
+			if(!this._handlers){
+				this._handlers = {};
+			}
+			if(!this._handlers[type]){
+				this._handlers[type] = [];
+			}
+			this._handlers[type].push(handler);
 		}
-		if(!this._handlers[type]){
-			this._handlers[type] = [];
-		}
-		this._handlers[type].push(handler);
 		return this;
 	},
 	fire:function(type,data){
