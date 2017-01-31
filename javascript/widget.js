@@ -44,4 +44,9 @@ Widget.prototype = {
 		}
 		return this;
 	},
+	_bindEvent:function(eventName,optionName){
+		if(gettype(this.options[optionName])==='function'){
+			this.on(eventName,this.options[optionName]);
+		}
+	}
 }
