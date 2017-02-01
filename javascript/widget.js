@@ -6,10 +6,14 @@ Widget.prototype = {
 	constructor:Widget,
 	// 观察者模式
 	on:function(type,handler){
-		if(gettype(handler)==='function'){
-			if(!this._handlers){
-				this._handlers = {};
+		if(!this._handlers){
+			this._handlers = {};
+		}
+		if(gettype(type)==='object'){
+			for(key in type){
+				this.on(key,type[key]);
 			}
+		}else if(gettype(handler)==='function'){
 			if(!this._handlers[type]){
 				this._handlers[type] = [];
 			}
@@ -45,8 +49,13 @@ Widget.prototype = {
 		return this;
 	},
 	_bindEvent:function(eventName,optionName){
-		if(gettype(this.options[optionName])==='function'){
+		if(gettype(eventName)==='object'){
+			for(key in eventName){
+				this._bindEvent(key,eventName[key]);
+			}
+		}else if(gettype(this.options[optionName])==='function'){
 			this.on(eventName,this.options[optionName]);
 		}
-	}
+		return this;
+	},
 }
