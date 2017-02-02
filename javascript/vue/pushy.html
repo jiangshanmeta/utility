@@ -1,0 +1,114 @@
+<style>
+.vue-pushy-nav{
+	position:fixed;
+	width:200px;
+	top:0;
+	left:0;
+	bottom:0;
+	z-index:9999;
+	-webkit-transform:translate3d(-200px,0,0);
+	-moz-transform:translate3d(-200px,0,0);
+	-ms-transform:translate3d(-200px,0,0);
+	-o-transform:translate3d(-200px,0,0);
+	transform:translate3d(-200px,0,0);
+	background-color:#fff;
+}
+.vue-pushy-nav ul,.vue-pushy-nav li{
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+
+.vue-pushy-overlay{
+	position:fixed;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	z-index:-1;
+	opacity:0;
+	background-color:rgba(0,0,0,0);	
+}
+.vue-pushy-nav,.vue-pushy-overlay{
+	-webkit-transition:all 0.3s cubic-bezier(0.16, 0.68, 0.43, 0.99);
+	transition:all 0.3s cubic-bezier(0.16, 0.68, 0.43, 0.99);
+}
+.vue-pushy-separator{
+	display:block;
+	height:1px;
+	margin-top:5px;
+	margin-bottom:5px;
+	background-color:rgba(0,0,0,0.2);
+}
+.vue-pushy-separator:last-child{
+	display:none;
+}
+.vue-pushy-link{
+	display:block;
+	padding:8px 15px;
+	color:#de698c;
+	text-decoration:none;
+}
+.vue-pushy-link.active{
+	background-color:rgba(0,0,0,0.07);
+}
+.vue-pushy-icon{
+	margin-right:10px;
+}
+.vue-pushy-open{
+
+}
+.vue-pushy-open .vue-pushy-nav{
+	-webkit-transform:translate3d(0,0,0);
+	-moz-transform:translate3d(0,0,0);
+	-ms-transform:translate3d(0,0,0);
+	-o-transform:translate3d(0,0,0);
+	transform:translate3d(0,0,0);	
+}
+.vue-pushy-open .vue-pushy-overlay{
+	opacity:1;
+	z-index:9998;
+	background-color:rgba(0,0,0,0.2);
+}
+</style>
+<script type="text/x-template" id="vue-pushy">
+<div v-bind:class="{'vue-pushy-open':isOpen}">
+	<nav class='vue-pushy-nav' >
+		<ul>
+		
+			<template v-for="menuitem in menus">
+				<li v-for="menu in menuitem">
+					<a class="vue-pushy-link" v-bind:href="menu.href" v-bind:class="{active:menu.id===showmenu}">
+						<span v-bind:class="menu.icon" v-if="menu.icon" class="vue-pushy-icon"></span>
+						{{menu.name}}
+					</a>
+				</li>
+				<div class="vue-pushy-separator"></div>
+			</template>
+		</ul>
+	</nav>
+	<div class="vue-pushy-overlay" ></div>
+</div>
+</script>
+<script>
+Vue.component("vue-pushy",{
+	template:"#vue-pushy",
+	props:['menus','showmenu'],
+	data:function(){
+		return {
+			isOpen:false,
+		}
+	},
+	methods:{
+		open:function(){
+			this.isOpen = true;
+		},
+		close:function(){
+			this.isOpen = false;
+		},
+		toggle:function(){
+			this.isOpen = !this.isOpen;
+		},
+	},
+})
+</script>
