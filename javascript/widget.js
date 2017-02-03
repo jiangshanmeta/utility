@@ -29,7 +29,7 @@ Widget.prototype = {
 			var handlers = this._handlers[type];
 			var args = [].slice.call(arguments,1);
 			for(var i=0,len=handlers.length;i<len;i++){
-				handlers.apply(this,args);
+				handlers[i].apply(this,args);
 			}
 		}
 		return this;
