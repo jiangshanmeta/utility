@@ -21,14 +21,15 @@ Widget.prototype = {
 		}
 		return this;
 	},
-	fire:function(type,data){
+	$emit:function(type){
 		if(!this._handlers){
 			this._handlers = {};
 		}
 		if(this._handlers[type]){
 			var handlers = this._handlers[type];
+			var args = [].slice.call(arguments,1);
 			for(var i=0,len=handlers.length;i<len;i++){
-				handlers[i](data);
+				handlers.apply(this,args);
 			}
 		}
 		return this;
