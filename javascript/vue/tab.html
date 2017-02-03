@@ -1,0 +1,41 @@
+<style>
+/*   具体的样式由传入的class控制，css由其他开发者实现  */
+</style>
+<script type="text/x-template" id="vue-tab">
+<div>
+	<ul v-bind:class="tabclass">
+		<li v-for="tab in tabs" v-on:click="changeTab(tab.name)" v-bind:class="{active:tab.name===realtab}">
+			{{tab.showName}}
+		</li>
+	</ul>
+	<div >
+		<div v-for="tab in tabs" v-show='tab.name==realtab'>
+			<slot  v-bind:name="tab.name" ></slot>
+		</div>
+	</div>
+</div>
+</script>
+<script>
+Vue.component("vue-tab",{
+	template:"#vue-tab",
+	props:{
+		'tabs':Array,
+		'curtab':String,
+		'tabclass':{
+			type:String,
+			default:'nav'
+		},
+	},
+	data:function(){
+		return {
+			realtab:this.curtab,
+		}
+	},
+
+	methods:{
+		changeTab:function(name){
+			this.realtab = name;
+		},
+	},
+})
+</script>
