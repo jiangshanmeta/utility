@@ -1,0 +1,55 @@
+<style>
+/*   具体的样式由传入的class控制，css由其他开发者实现  */
+</style>
+<script type="text/x-template" id="vue-pagination">
+<div>
+	<ul v-bind:class="listclass">
+		<li v-for="n in itemcount" v-if="Math.ceil(n/pagesize)==curpage">
+			<slot v-bind:name="'slot'+n">{{n}}</slot>
+		</li>
+	</ul>
+	<ul class="pagination">
+		<li v-for="n in pageNum" v-on:click="gotoPage(n)" v-bind:class="{active:n===curpage}">
+			{{n}}
+		</li>
+	</ul>
+</div>
+</script>
+<script>
+Vue.component("vue-pagination",{
+	template:"#vue-pagination",
+	props:{
+		'listclass':{
+			type:String,
+			default:'',
+		},
+		'itemcount':{
+			type:Number,
+			required:true,
+		},
+		'pagesize':{
+			type:Number,
+			default:5
+		},
+	},
+	data:function(){
+		return {
+			curpage:1,
+		}
+	},
+	computed:{
+		pageNum:function(){
+			return Math.ceil(this.itemcount/this.pagesize);
+		},
+	},
+	methods:{
+		gotoPage:function(page){
+			page = parseInt(page);
+			if(page<1||page>this.pageNum){
+				return;
+			}
+			this.curpage = page
+		},
+	},
+})
+</script>
