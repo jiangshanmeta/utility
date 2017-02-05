@@ -1,15 +1,15 @@
 <style>
-/*   具体的样式由传入的class控制，css由其他开发者实现  */
+/*  本项目是把bootstrap的js插件改成vue组件，css沿用bootstrap的  */
 </style>
 <script type="text/x-template" id="vue-tab">
 <div>
-	<ul v-bind:class="tabclass">
+	<ul v-bind:class="tabtype" class="nav">
 		<li v-for="tab in tabs" v-on:click="changeTab(tab.name)" v-bind:class="{active:tab.name===realtab}">
-			{{tab.showName}}
+			<a>{{tab.showName}}</a>
 		</li>
 	</ul>
-	<div >
-		<div v-for="tab in tabs" v-show='tab.name==realtab'>
+	<div class="tab-content">
+		<div v-for="tab in tabs" class="tab-pane" v-bind:class="{active:tab.name==realtab}">
 			<slot  v-bind:name="tab.name" ></slot>
 		</div>
 	</div>
@@ -21,9 +21,9 @@ Vue.component("vue-tab",{
 	props:{
 		'tabs':Array,
 		'curtab':String,
-		'tabclass':{
+		'tabtype':{
 			type:String,
-			default:'nav'
+			default:''
 		},
 	},
 	data:function(){
