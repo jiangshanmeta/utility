@@ -1,0 +1,41 @@
+<style>
+/*  本项目是把bootstrap的js插件改成vue组件，css沿用bootstrap的  */
+</style>
+<script type="text/x-template" id="vue-button">
+	<button type="button" class="btn" v-bind:class="[btntype,{disabled:isLoading}]" v-bind:disabled="isLoading" v-on:click="loading">
+		{{isLoading?loadingtext:text}}
+	</button>
+</script>
+<script>
+Vue.component('vue-button',{
+	template:"#vue-button",
+	props:{
+		btntype:{
+			'type':String,
+			'default':''
+		},
+		loadingtext:{
+			'type':String,
+			'default':'Loading...'
+		},
+		text:{
+			'type':String,
+			'default':''
+		}
+	},
+	data:function(){
+		return {
+			isLoading:false,
+		}
+	},
+	methods:{
+		loading:function(){
+			this.isLoading = true;
+			this.$emit('loading');
+		},
+		reset:function(){
+			this.isLoading = false;
+		}
+	}
+})
+</script>
