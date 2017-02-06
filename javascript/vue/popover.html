@@ -1,5 +1,10 @@
 <style>
 /*  本项目是把bootstrap的js插件改成vue组件，css沿用bootstrap的  */
+/* 原始的popover位置由js计算得到，现在改成css，然而需要父元素配合，所以有了.vue-popover-container   */
+.vue-popover-container{
+	display:table;
+	position:relative;
+}
 .vue-popover{
 	display:block;
 	width:-webkit-max-content;

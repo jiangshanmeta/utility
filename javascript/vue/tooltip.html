@@ -1,0 +1,121 @@
+<style>
+/*  本项目是把bootstrap的js插件改成vue组件，css沿用bootstrap的  */
+.vue-tooltip-container{
+	position:relative;
+}
+.vue-tooltip{
+	display:block;
+	width:-webkit-max-content;
+	width:-moz-max-content;
+	width:-ms-max-content;
+	width:-o-max-content;
+	width:max-content;
+}
+.vue-tooltip.top{
+	bottom:100%;
+	top:auto;
+	margin-bottom:3px;
+	margin-top:0;
+}
+.vue-tooltip.bottom{
+	top:100%;
+}
+.vue-tooltip.top,.vue-tooltip.bottom{
+	left:50%;
+	-webkit-transform:translate(-50%,0);
+	-moz-transform:translate(-50%,0);
+	-ms-transform:translate(-50%,0);
+	-o-transform:translate(-50%,0);
+	transform:translate(-50%,0);
+}
+.vue-tooltip.left{
+	right:100%;
+	left:auto;
+	margin-left:0;
+	margin-right:3px;
+}
+.vue-tooltip.right{
+	left:100%;
+}
+.vue-tooltip.left,.vue-tooltip.right{
+	top:50%;
+	-webkit-transform:translate(0,-50%);
+	-moz-transform:translate(0,-50%);
+	-ms-transform:translate(0,-50%);
+	-o-transform:translate(0,-50%);
+	transform:translate(0,-50%);
+}
+</style>
+<script type="text/x-template" id="vue-tooltip">
+<span class="vue-tooltip-container">
+	<span v-on:mouseenter="mouseenter" v-on:mouseleave="mouseleave" v-on:click="click">
+		<slot name="trigger"></slot>
+	</span>
+	<transition v-on:before-enter="beforeEnter" v-on:after-enter="afterEnter" v-on:before-leave="beforeLeave" v-on:after-leave="afterLeave">
+		<div class="tooltip fade vue-tooltip" v-bind:class="[placement,{in:isshow}]" v-show="isshow">
+			<div class="tooltip-arrow"></div>
+			<div class="tooltip-inner">
+				<slot></slot>
+			</div>
+		</div>
+	</transition>
+</span>
+</script>
+<script>
+Vue.component("vue-tooltip",{
+	template:"#vue-tooltip",
+	props:{
+		placement:{
+			'type':String,
+			'default':"bottom",
+		},
+	},
+	data:function(){
+		return {
+			isshow:false,
+			trigger:'hover',
+		}
+	},
+	methods:{
+		beforeEnter:function(){
+			this.$emit('show');
+		},
+		afterEnter:function(){
+			this.$emit('shown');
+		},
+		beforeLeave:function(){
+			this.$emit('hide');
+		},
+		afterLeave:function(){
+			this.$emit('hidden');
+		},
+		mouseenter:function(){
+			if(this.trigger!=="click"){
+				this.trigger = "hover";
+			}
+			this.isshow = true;
+		},
+		mouseleave:function(){
+			if(this.isshow){
+				if(this.trigger==="hover"){
+					this.isshow = false;
+				}
+			}
+		},
+		click:function(){
+			if(this.isshow){
+				if(this.trigger==='hover'){
+					this.trigger = "click";
+				}else{
+					this.isshow = false;
+					this.trigger = "hover";
+				}
+			}else{
+				this.isshow = true;
+				this.trigger = "click";
+			}
+		},
+	}
+})
+
+</script>
