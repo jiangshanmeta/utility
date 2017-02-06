@@ -2,7 +2,7 @@
 /*  本项目是把bootstrap的js插件改成vue组件，css沿用bootstrap的  */
 /* 原始的popover位置由js计算得到，现在改成css，然而需要父元素配合，所以有了.vue-popover-container   */
 .vue-popover-container{
-	display:table;
+	display:inline-block;
 	position:relative;
 }
 .vue-popover{
@@ -49,17 +49,22 @@
 }
 </style>
 <script type="text/x-template" id="vue-popover">
-<transition v-on:before-enter="beforeShow" v-on:after-enter="afterEnter" v-on:before-leave="beforeLeave" v-on:after-leave="afterLeave">
-	<div class="popover fade vue-popover" v-bind:class="[placement,{in:isshow}]" v-show="isshow">
-		<div class="arrow"></div>
-		<div class="popover-title">
-			<slot name="title"></slot>
+<span class="vue-popover-container">
+	<span v-on:click="toggle">
+		<slot name="trigger"></slot>
+	</span>
+	<transition v-on:before-enter="beforeShow" v-on:after-enter="afterEnter" v-on:before-leave="beforeLeave" v-on:after-leave="afterLeave">
+		<div class="popover fade vue-popover" v-bind:class="[placement,{in:isshow}]" v-show="isshow">
+			<div class="arrow"></div>
+			<div class="popover-title">
+				<slot name="title"></slot>
+			</div>
+			<div class="popover-content">
+				<slot></slot>
+			</div>
 		</div>
-		<div class="popover-content">
-			<slot></slot>
-		</div>
-	</div>
-</transition>
+	</transition>
+</span>
 </script>
 <script>
 Vue.component('vue-popover',{
@@ -69,10 +74,15 @@ Vue.component('vue-popover',{
 			'type':String,
 			'default':'bottom',
 		},
-		isshow:{
-			'type':Boolean,
-			'default':false
-		},
+		// isshow:{
+		// 	'type':Boolean,
+		// 	'default':false
+		// },
+	},
+	data:function(){
+		return {
+			isshow:false
+		}
 	},
 	methods:{
 		beforeShow:function(){
@@ -86,7 +96,10 @@ Vue.component('vue-popover',{
 		},
 		afterLeave:function(){
 			this.$emit('hidden');
-		}
+		},
+		toggle:function(){
+			this.isshow = !this.isshow;
+		},
 	}
 });
 
