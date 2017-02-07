@@ -45,9 +45,18 @@
 	-o-transform:translate(0,-50%);
 	transform:translate(0,-50%);
 }
+.vue-tooltip-backdrop {
+	position:fixed;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	z-index:1040;
+}
 </style>
 <script type="text/x-template" id="vue-tooltip">
 <span class="vue-tooltip-container">
+	<div v-show="isshow&&trigger=='click'" v-on:click="maskHide" class="vue-tooltip-backdrop"></div>
 	<span v-on:mouseenter="mouseenter" v-on:mouseleave="mouseleave" v-on:click="click">
 		<slot name="trigger"></slot>
 	</span>
@@ -115,6 +124,10 @@ Vue.component("vue-tooltip",{
 				this.trigger = "click";
 			}
 		},
+		maskHide:function(){
+			this.trigger = "hover";
+			this.isshow = false;
+		}
 	}
 })
 

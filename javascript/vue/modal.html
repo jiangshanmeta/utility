@@ -4,7 +4,8 @@
 <script type="text/x-template" id="vue-modal">
 <transition v-on:before-enter="beforeEnter"  v-on:after-enter="afterEnter" v-on:before-leave="beforeLeave" v-on:after-leave="afterLeave">
 	<div class="modal fade" role="dialog" v-bind:class="[{in:isshow}]"  v-bind:style="{display:isshow?'block':'none'}">
-		<div class="modal-dialog" role="document" v-bind:class="[modaltype]">
+		<div class="modal-backdrop" v-on:click="close" v-show="isshow" style="background:transparent;"></div>
+		<div class="modal-dialog" role="document" v-bind:class="[modaltype]" style="z-index:1050;">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" v-on:click="close" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -57,6 +58,4 @@ Vue.component("vue-modal",{
 		}
 	}
 })
-
-
 </script>

@@ -1,0 +1,49 @@
+<style>
+/*  本项目是把bootstrap的js插件改成vue组件，css沿用bootstrap的  */
+</style>
+<script type="text/x-template" id="vue-dropdown">
+<li class="dropdown" v-bind:class="{open:isshow}">
+	<div class="dropdown-backdrop" v-show="isshow" v-on:click="close"></div>
+	<a class="dropdown-toggle" v-on:click="toggle">
+		{{name}}
+		<span class="caret"></span>
+	</a>
+	<ul class="dropdown-menu">
+		<li v-for="item in submenu">
+			<a v-bind:href="item.href">{{item.name}}</a>
+		</li>
+	</ul>
+</li>
+</script>
+<script>
+Vue.component("vue-dropdown",{
+	template:"#vue-dropdown",
+	props:{
+		submenu:{
+			type:Array,
+			required:true
+		},
+		name:{
+			type:String,
+			required:true,
+		}
+	},
+	data:function(){
+		return {
+			isshow:false,
+		};
+	},
+	methods:{
+		open:function(){
+			this.isshow = true;
+		},
+		close:function(){
+			this.isshow = false;
+		},
+		toggle:function(){
+			this.isshow = !this.isshow;
+		}
+	}
+});
+
+</script>
