@@ -59,4 +59,9 @@ Widget.prototype = {
 		}
 		return this;
 	},
+	_mergeOpt:function(opt){
+		// 合并传入的参数，因为js参数默认值有兼容性问题，所以写死两个参数， 合并后的参数以options挂在this上，默认值是公有静态变量defaults
+		this.options = deepAssign({},this.constructor.defaults,opt||{});
+	},
+	
 }
