@@ -3,33 +3,44 @@
 </style>
 <script type="text/x-template" id="vue-pagination">
 <div>
-	<ul v-bind:class="listclass">
-		<li v-for="n in itemcount" v-if="Math.ceil(n/pagesize)==curpage">
+	<ul v-bind:class="listtype">
+		<li v-for="n in parseInt(itemcount)" v-show="Math.ceil(n/pagesize)==curpage">
 			<slot v-bind:name="'slot'+n">{{n}}</slot>
 		</li>
 	</ul>
-	<ul class="pagination">
+	<ul class="pagination" v-bind:class="[paginationtype]">
+		<li v-bind:class="[{disabled:curpage==1}]">
+		    <a aria-hidden="true" v-on:click="gotoPage(curpage-1)">&laquo;</a>
+		</li>
 		<li v-for="n in pageNum" v-on:click="gotoPage(n)" v-bind:class="{active:n===curpage}">
-			{{n}}
+			<a>{{n}}</a>
+		</li>
+		<li v-bind:class="[{disabled:curpage==pageNum}]">
+		    <a aria-hidden="true" v-on:click="gotoPage(curpage+1)">&raquo;</a>
 		</li>
 	</ul>
+	{{itemcount}}
 </div>
 </script>
 <script>
 Vue.component("vue-pagination",{
 	template:"#vue-pagination",
 	props:{
-		'listclass':{
-			type:String,
-			default:'',
+		'listtype':{
+			'type':String,
+			'default':'',
 		},
 		'itemcount':{
-			type:Number,
-			required:true,
+			'type':[Number,String],
+			'required':true,
 		},
 		'pagesize':{
-			type:Number,
-			default:5
+			'type':[Number,String],
+			'default':5
+		},
+		'paginationtype':{
+			'type':String,
+			'default':''
 		},
 	},
 	data:function(){

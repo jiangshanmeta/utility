@@ -1,10 +1,13 @@
 <style>
 /*  本项目是把bootstrap的js插件改成vue组件，css沿用bootstrap的  */
+.modal.in{
+	display:block;
+}
 </style>
 <script type="text/x-template" id="vue-modal">
 <transition v-on:before-enter="beforeEnter"  v-on:after-enter="afterEnter" v-on:before-leave="beforeLeave" v-on:after-leave="afterLeave">
-	<div class="modal fade" role="dialog" v-bind:class="[{in:isshow}]"  v-bind:style="{display:isshow?'block':'none'}">
-		<div class="modal-backdrop" v-on:click="close" v-show="isshow" style="background:transparent;"></div>
+	<div class="modal fade" role="dialog" v-bind:class="[{in:isshow}]"  v-show="isshow">
+		<div class="modal-backdrop" v-on:click="close"  style="background:transparent;"></div>
 		<div class="modal-dialog" role="document" v-bind:class="[modaltype]" style="z-index:1050;">
 			<div class="modal-content">
 				<div class="modal-header">

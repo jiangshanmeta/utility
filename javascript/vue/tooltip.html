@@ -64,7 +64,7 @@
 		<div class="tooltip fade vue-tooltip" v-bind:class="[placement,{in:isshow}]" v-show="isshow">
 			<div class="tooltip-arrow"></div>
 			<div class="tooltip-inner">
-				<slot></slot>
+				{{msg}}
 			</div>
 		</div>
 	</transition>
@@ -78,6 +78,10 @@ Vue.component("vue-tooltip",{
 			'type':String,
 			'default':"bottom",
 		},
+		msg:{
+			'type':[String,Number],
+			'default':''
+		}
 	},
 	data:function(){
 		return {
