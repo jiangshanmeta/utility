@@ -4,7 +4,7 @@
 </style>
 <script type="text/x-template" id="vue-collapse">
 <transition v-on:before-enter="beforeEnter"     v-on:after-enter="afterEnter"  v-on:before-leave="beforeLeave"  v-on:after-leave="afterLeave">
-	<div class="" v-show="isshow" class="vue-collapse"  v-bind:class="[{collapsing:isTransition}]">
+	<div class="" v-show="isshow"   v-bind:class="[{collapsing:isTransition}]">
 		<slot></slot>
 	</div>
 </transition>
@@ -26,24 +26,21 @@ Vue.component("vue-collapse",{
 	methods:{
 		beforeEnter:function(el){
 			this.isTransition = true;
-			// 相当于强制重绘，这样元素会去掉display:none，就能取到真实高度
-			setTimeout(function(){
+			this.$nextTick(function(){
 				el.style.height = el.scrollHeight + "px";
-			},0);
-			this.$emit("show");
+				this.$emit("show");
+			});
 		},
 		afterEnter:function(el){
 			this.isTransition = false;
 			el.style.height = "";
 		},
 		beforeLeave:function(el){
+			this.isTransition = true;
 			var height = getComputedStyle(el).height;
 			el.style.height = height;
-			this.isTransition = true;
-			// 先等强制重绘把高度的样式应用上
-			setTimeout(function(){
-				el.style.height = 0;
-			},0);
+			el.scrollHeight;
+			el.style.height = 0;
 			this.$emit("hide");
 		},
 		afterLeave:function(el){
