@@ -61,7 +61,7 @@
 		<slot name="trigger"></slot>
 	</span>
 	<transition v-on:before-enter="beforeEnter" v-on:after-enter="afterEnter" v-on:before-leave="beforeLeave" v-on:after-leave="afterLeave">
-		<div class="tooltip fade vue-tooltip" v-bind:class="[placement,{in:isshow}]" v-show="isshow">
+		<div class="tooltip fade vue-tooltip" v-bind:class="[placement,{in:isin}]" v-show="isshow">
 			<div class="tooltip-arrow"></div>
 			<div class="tooltip-inner">
 				{{msg}}
@@ -87,17 +87,24 @@ Vue.component("vue-tooltip",{
 		return {
 			isshow:false,
 			trigger:'hover',
-		}
+			isin:false,
+		};
 	},
 	methods:{
-		beforeEnter:function(){
+		beforeEnter:function(el){
 			this.$emit('show');
+			var _this = this;
+			setTimeout(function(){
+				// 是为了让先干掉display:none,先显示出来，再添加.in，进行透明度过渡，和collapse的类似
+				_this.isin = true;
+			},0);
 		},
 		afterEnter:function(){
 			this.$emit('shown');
 		},
 		beforeLeave:function(){
 			this.$emit('hide');
+			this.isin = false;
 		},
 		afterLeave:function(){
 			this.$emit('hidden');

@@ -1,12 +1,12 @@
 <style>
 /*  本项目是把bootstrap的js插件改成vue组件，css沿用bootstrap的  */
-.modal.in{
+.modal.vue-modal{
 	display:block;
 }
 </style>
 <script type="text/x-template" id="vue-modal">
 <transition v-on:before-enter="beforeEnter"  v-on:after-enter="afterEnter" v-on:before-leave="beforeLeave" v-on:after-leave="afterLeave">
-	<div class="modal fade" role="dialog" v-bind:class="[{in:isshow}]"  v-show="isshow">
+	<div class="modal fade vue-modal" role="dialog" v-bind:class="[{in:isin}]"  v-show="isshow">
 		<div class="modal-backdrop" v-on:click="close"  style="background:transparent;"></div>
 		<div class="modal-dialog" role="document" v-bind:class="[modaltype]" style="z-index:1050;">
 			<div class="modal-content">
@@ -40,18 +40,23 @@ Vue.component("vue-modal",{
 	},
 	data:function(){
 		return {
-
+			isin:!!this.isshow,
 		}
 	},
 	methods:{
 		beforeEnter:function(){
 			this.$emit('show');
+			var _this = this;
+			setTimeout(function(){
+				_this.isin = true;
+			},0);
 		},
 		afterEnter:function(){
 			this.$emit('shown');
 		},
 		beforeLeave:function(){
 			this.$emit('hide');
+			this.isin = false;
 		},
 		afterLeave:function(){
 			this.$emit('hidden');

@@ -1,6 +1,7 @@
 <style>
 /*  本项目是把bootstrap的js插件改成vue组件，css沿用bootstrap的  */
 /* 原始的popover位置由js计算得到，现在改成css，然而需要父元素配合，所以有了.vue-popover-container   */
+/* popover其实和tooltip类似，只是tooltip的效果完全内部控制，而popover的显示隐藏由外界传入  */
 .vue-popover-container{
 	display:inline-block;
 	position:relative;
@@ -54,7 +55,7 @@
 		<slot name="trigger"></slot>
 	</span>
 	<transition v-on:before-enter="beforeShow" v-on:after-enter="afterEnter" v-on:before-leave="beforeLeave" v-on:after-leave="afterLeave">
-		<div class="popover fade vue-popover" v-bind:class="[placement,{in:isshow}]" v-show="isshow">
+		<div class="popover fade vue-popover" v-bind:class="[placement,{in:isin}]" v-show="isshow">
 			<div class="arrow"></div>
 			<div class="popover-title">
 				<slot name="title"></slot>
@@ -77,18 +78,25 @@ Vue.component('vue-popover',{
 	},
 	data:function(){
 		return {
-			isshow:false
+			isshow:false,
+			isin:false,
 		}
 	},
 	methods:{
 		beforeShow:function(){
 			this.$emit('show');
+			var _this = this;
+			// 和tooltip的类似
+			setTimeout(function(){
+				_this.isin = true;
+			},0);
 		},
 		afterEnter:function(){
 			this.$emit('shown');
 		},
 		beforeLeave:function(){
 			this.$emit('hide');
+			this.isin = false;
 		},
 		afterLeave:function(){
 			this.$emit('hidden');
