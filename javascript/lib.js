@@ -73,7 +73,7 @@ function gettype(obj){
   return Object.prototype.toString.call(obj).match(/\s([a-z|A-Z]+)/)[1].toLowerCase();
 }
 function is_array(arr){
-	return gettype(arr)==='array';
+	return Array.isArray(arr);
 }
 function is_string(str){
 	return (typeof str)==='string';

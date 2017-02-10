@@ -19,6 +19,7 @@
 		<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 		<span class="sr-only">Next</span>
 	</a>
+	<slot></slot>
 </div>
 </script>
 <script>
@@ -66,18 +67,18 @@ Vue.component("vue-carousel",{
 		
 			this.clock && clearTimeout(this.clock);
 			this.isprepare = true;
-
+			this.$emit('slide',this.nextIndex);
 			setTimeout(function(){
 				_this.issliding = true;
 			},0);
 		},
 		transitionend:function(){
-
 			if(this.issliding){
 				this.curIndex = this.nextIndex;
 				this.isprepare = false;
 				this.issliding = false;
-				this.setClock();					
+				this.cycle();
+				this.$emit('slid',this.curIndex);					
 			}
 		},
 		next:function(){
@@ -86,15 +87,18 @@ Vue.component("vue-carousel",{
 		prev:function(){
 			this.gotoPage(this.curIndex-1);
 		},
-		setClock:function(){
+		pause:function(){
+			this.clock && clearTimeout(this.clock);
+		},
+		cycle:function(){
 			var _this = this;
 			this.clock = setTimeout(function(){
 				_this.next();
 			},parseInt(this.duration));
-		},
+		}
 	},
 	mounted:function(){
-		this.setClock();
+		this.cycle();
 	}
 });
 </script>
