@@ -64,6 +64,9 @@ Widget.prototype = {
 		this.options = deepAssign({},this.constructor.defaults,opt||{});
 	},
 	_bindContainer:function(){
-		this.container = document.querySelector(this.options.selector);
+		var selector = this.options.selector;
+		var isId = /^#[\w-]+$/.test(selector);
+		var context = isId?document:(this.options.context&&(this.options.context.nodeType===1 ||this.options.context.nodeType===9)?this.options.context:document);
+		this.container = context.querySelector(this.options.selector);
 	},
 }
