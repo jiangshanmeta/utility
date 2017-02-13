@@ -69,4 +69,16 @@ Widget.prototype = {
 		var context = isId?document:(this.options.context&&(this.options.context.nodeType===1 ||this.options.context.nodeType===9)?this.options.context:document);
 		this.container = context.querySelector(this.options.selector);
 	},
+	$watch:function(name,fn){
+		if(typeof fn !== 'function'){
+			return this;
+		}
+		var context = this;
+		var proxy = function(){
+			return fn.apply(context,[].slice.call(arguments,1))
+		}
+		this.watch(name,proxy);
+		return this;
+	},
+
 }
