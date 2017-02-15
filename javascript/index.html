@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="lib.js"></script>
+		<script src="widget.js"></script>
+	</head>
+	<body>
+		<script>
+			function App(){
+				this.name = "abc";
+				this.$watch("name",function(old,nw){
+					console.log(old,nw)
+					return nw;
+				})
+			}
+			App.prototype = Object.assign({},Widget.prototype,{
+
+			});
+			var a = new App();
+
+			function abc(a,b){
+				console.log(a===void 0);
+				console.log(a===undefined);
+			}
+		</script>
+	</body>
+</html>

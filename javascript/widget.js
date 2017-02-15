@@ -74,8 +74,8 @@ Widget.prototype = {
 			return this;
 		}
 		var context = this;
-		var proxy = function(){
-			return fn.apply(context,[].slice.call(arguments,1))
+		var proxy = function(id,oldVal,newVal){
+			return fn.call(context,oldVal,newVal);
 		}
 		this.watch(name,proxy);
 		return this;
