@@ -7,13 +7,15 @@ Widget.prototype = {
 	// 观察者模式
 	on:function(type,handler){
 		if(!this._handlers){
-			this._handlers = {};
+			this._handlers = Object.create(null);
 		}
 		if(gettype(type)==='object'){
 			for(key in type){
-				this.on(key,type[key]);
+				if(type.hasOwnProperty(key)){
+					this.on(key,type[key]);
+				}
 			}
-		}else if(gettype(handler)==='function'){
+		}else if(typeof handler === 'function'){
 			if(!this._handlers[type]){
 				this._handlers[type] = [];
 			}
@@ -21,30 +23,45 @@ Widget.prototype = {
 		}
 		return this;
 	},
-	$emit:function(type){
-		if(!this._handlers){
-			this._handlers = {};
+	$once:function(type,fn){
+		// once只是对on的一层包装，保证回调只用一次
+		var _this = this;
+		var fn2 = function(){
+			_this.$off(type,fn2);
+			fn.apply(_this,arguments);
 		}
-		if(this._handlers[type]){
-			var handlers = this._handlers[type];
-			var args = [].slice.call(arguments,1);
-			for(var i=0,len=handlers.length;i<len;i++){
-				handlers[i].apply(this,args);
-			}
+		return this.on(type,fn2);
+	},
+	$emit:function(type){
+		if(!this._handlers || !this._handlers[type]){
+			return this;
+		}
+		var handlers = this._handlers[type];
+		var args = [].slice.call(arguments,1);
+		for(var i=0,len=handlers.length;i<len;i++){
+			handlers[i].apply(this,args);
 		}
 		return this;
 	},
-	remove:function(type,handler){
-		if(!this._handlers){
-			this._handlers = {};
+	$off:function(type,handler){
+		// 不传参数默认把事件全干掉
+		if(!arguments.length){
+			this._handlers = Object.create(null);
+			return this;
 		}
-		if(this._handlers[type]){
-			handlers = this._handlers[type];
-			for(var i=0,len=handlers.length;i<len;i++){
-				if(handlers[i]===handler){
-					this._handlers[type].splice(i,1);
-					break;
-				}
+		if(!this._handlers || !this._handlers[type]){
+			return this;
+		}
+		// 如果只有类型没有具体的函数，干掉这个事件
+		if(arguments.length===1){
+			this._handlers[type] = [];
+			return this;
+		}
+		handlers = this._handlers[type];
+		for(var i=0,len=handlers.length;i<len;i++){
+			if(handlers[i]===handler){
+				this._handlers[type].splice(i,1);
+				break;
 			}
 		}
 		return this;

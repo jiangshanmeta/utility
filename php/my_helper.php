@@ -1,10 +1,20 @@
 <?php
+// 字符串 驼峰化
 if(!function_exists('camelize')){
 	function camelize($str){
 		return strtolower($str[0]).substr(str_replace(' ', '', ucwords(preg_replace('/[\s_-]+/', ' ', $str))), 1);
 	}
 }
 
+// 字符串 将驼峰化的字符串转换成连字符连接的
+if(!function_exists('hyphenate')){
+	function hyphenate($str){
+		static $hyphenateRE = '/([^-])([A-Z])/';
+		return strtolower(preg_replace($hyphenateRE, '$1-$2', preg_replace($hyphenateRE, '$1-$2', $str)));
+	}
+}
+
+// 字符串 模板填充
 if(!function_exists('str_supplant')){
 	function str_supplant($orginal_str,$replace_array){
 		if(!is_array($replace_array)){
@@ -116,9 +126,10 @@ if(!function_exists('is_assoc_array')){
 
 // addtoset 判断是否重复的push
 if(!function_exists('array_addToSet')){
-	function array_addToSet(&$array,$val){
+	function array_addToSet(&$array){
 		$args = func_get_args();
-		for($i=1;$i<func_num_args();$i++){
+		$length = func_num_args();
+		for($i=1;$i<$length;$i++){
 			if(!in_array($args[$i], $array)){
 				$array[] = $args[$i];
 			}
