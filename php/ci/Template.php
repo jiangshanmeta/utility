@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 // 对ci load view的一个封装
 class Template{
+	protected $CI;
 	public function __construct(){
 		$this->templateData = [];
 		$this->CI = &get_instance();
