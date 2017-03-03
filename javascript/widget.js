@@ -5,14 +5,14 @@ function Widget(){
 Widget.prototype = {
 	constructor:Widget,
 	// 观察者模式
-	on:function(type,handler){
+	$on:function(type,handler){
 		if(!this._handlers){
 			this._handlers = Object.create(null);
 		}
 		if(gettype(type)==='object'){
 			for(key in type){
 				if(type.hasOwnProperty(key)){
-					this.on(key,type[key]);
+					this.$on(key,type[key]);
 				}
 			}
 		}else if(typeof handler === 'function'){
@@ -30,7 +30,7 @@ Widget.prototype = {
 			_this.$off(type,fn2);
 			fn.apply(_this,arguments);
 		}
-		return this.on(type,fn2);
+		return this.$on(type,fn2);
 	},
 	$emit:function(type){
 		if(!this._handlers || !this._handlers[type]){
@@ -45,7 +45,9 @@ Widget.prototype = {
 	},
 	$off:function(type,handler){
 		// 不传参数默认把事件全干掉
-		if(!arguments.length){
+		var l = arguments.length;
+
+		if(!l){
 			this._handlers = Object.create(null);
 			return this;
 		}
@@ -53,7 +55,7 @@ Widget.prototype = {
 			return this;
 		}
 		// 如果只有类型没有具体的函数，干掉这个事件
-		if(arguments.length===1){
+		if(l===1){
 			this._handlers[type] = [];
 			return this;
 		}
@@ -72,7 +74,7 @@ Widget.prototype = {
 				this._bindEvent(key,eventName[key]);
 			}
 		}else if(gettype(this.options[optionName])==='function'){
-			this.on(eventName,this.options[optionName]);
+			this.$on(eventName,this.options[optionName]);
 		}
 		return this;
 	},
