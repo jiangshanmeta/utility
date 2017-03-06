@@ -99,5 +99,12 @@ Widget.prototype = {
 		this.watch(name,proxy);
 		return this;
 	},
+	__get = function(fn,ctx){
+		return new Proxy(ctx?ctx:this,{
+			get:function(target,name){
+				return name in target? target[name]:fn.call(target,name);
+			}
+		});
+	},
 
 }
