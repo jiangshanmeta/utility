@@ -1,0 +1,108 @@
+@switch-handle-color: #fff;
+@at-primary: #286090;
+@at-success: #5cb85c;
+@at-info: #5bc0de;
+@at-warning: #ec971f;
+@at-danger: #d9534f;
+
+.at-switch{
+	position:relative;
+	display:block;
+	width:74px;
+	height:30px;
+	-webkit-transition-timing-function:ease-in-out;
+	transition-timing-function:ease-in-out;
+	-webkit-transition-duration:0.2s;
+	transition-duration:0.2s;
+	-webkit-transition-property:background-color,border;
+	transition-property:background-color,border;
+	border:2px solid #ddd;
+	border-radius:20px;
+	background-color:#fff;
+	background-clip:padding-box;
+	
+	&:before{
+		font-size:13px;
+		position:absolute;
+		top:3px;
+		right:11px;
+		content:'off';
+		text-transform:uppercase;
+		color:#999;
+	}
+
+	.at-switch-handle{
+		position:absolute;
+		z-index:1;
+		top:-1px;
+		left:-1px;
+		width:28px;
+		height:28px;
+		border-radius:16px;
+		background-color:@switch-handle-color;
+		background-clip:padding-box;
+		-webkit-box-shadow:0 2px 5px rgba(0,0,0,0.4);
+		box-shadow:0 2px 5px rgba(0,0,0,0.4);
+		-webkit-transition:0.2s ease-in-out;
+		transition:0.2s ease-in-out;		
+		-webkit-transition-property:-webkit-transform,width,left;
+		transition-property:transform,width,left;
+		-webkit-transform:translate(0px,0px);
+		transform:translate(0px,0px);
+	}
+
+	&.at-switch-active{
+		&:before{
+			right:auto;
+			left:15px;
+			content:'on';
+			color:#fff;
+		}
+
+		&.at-switch-primary{
+			background-color:@at-primary;
+			border-color:@at-primary;
+		}
+		&.at-switch-success{
+			background-color:@at-success;
+			border-color:@at-success;
+		}
+		&.at-switch-info{
+			background-color:@at-info;
+			border-color:@at-info;
+		}
+		&.at-switch-warning{
+			background-color:@at-warning;
+			border-color:@at-warning;
+		}
+		&.at-switch-danger{
+			background-color:@at-danger;
+			border-color:@at-danger;
+		}
+
+		.at-switch-handle{
+			-webkit-transform:translate(43px,0px);
+			transform:translate(43px,0px);
+		}
+
+		&.at-switch-sm{
+			.at-switch-handle{
+				-webkit-transform:translate(16px,0);
+				transform:translate(16px,0);
+			}
+		}
+
+	}
+
+	&.at-switch-sm{
+		width:47px;
+		&:before{
+			display:none;
+		}
+	}
+
+
+
+
+
+}
