@@ -1,0 +1,49 @@
+.at-pushy{
+	position:fixed;
+	top:0;
+	left:0;
+	bottom:0;
+	right:0;
+	z-index:10000;
+	.translate(-100%, 0);
+	-webkit-transition:-webkit-transform 350ms cubic-bezier(0.165,0.84,0.44,1);
+	transition:transform 350ms cubic-bezier(0.165,0.84,0.44,1);
+
+	&.at-pushy-active{
+		.translate(0, 0);
+
+		.at-pushy-backdrop{
+			position:absolute;
+			display: block;
+			z-index:998;
+			top:0;
+			left:0;
+			right:0;
+			bottom:0;
+			background:rgba(0,0,0,0.4);
+			transition: background 350ms cubic-bezier(.165,.84,.44,1);
+			box-shadow:-4px 0 4px rgba(0,0,0,0.5),4px 0 4px rgba(0,0,0,0.5);
+		}
+
+
+	}
+
+	.at-pushy-body{
+		width:70%;
+		height:100%;
+		z-index:999;
+		position:relative;
+	}
+
+
+
+	&.at-pushy-default{
+		.at-pushy-body{
+			background:#333;
+			color:#333;			
+		}
+
+	}
+
+}
+
