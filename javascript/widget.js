@@ -13,17 +13,13 @@ Object.defineProperty(Widget,'prototype',{
 			if(!this._handlers){
 				this._handlers = Object.create(null);
 			}
-			if(gettype(type)==='object'){
-				for(key in type){
-					if(type.hasOwnProperty(key)){
-						this.$on(key,type[key]);
-					}
+			if(typeof type === 'object'){
+				var keys = Object.keys(type);
+				for(var i=0,len=keys.length;i<len;i++){
+					this.$on(keys[i],type[keys[i]]);
 				}
 			}else if(typeof handler === 'function'){
-				if(!this._handlers[type]){
-					this._handlers[type] = [];
-				}
-				this._handlers[type].push(handler);
+				(this._handlers[type] || (this._handlers[type] = [] )).push(handler);
 			}
 			return this;
 		},
@@ -34,13 +30,14 @@ Object.defineProperty(Widget,'prototype',{
 				_this.$off(type,fn2);
 				fn.apply(_this,arguments);
 			}
+			fn2.fn = fn;
 			return this.$on(type,fn2);
 		},
 		$emit:function(type){
 			if(!this._handlers || !this._handlers[type]){
 				return this;
 			}
-			var handlers = this._handlers[type];
+			var handlers = this._handlers[type].slice();
 			var args = [].slice.call(arguments,1);
 			for(var i=0,len=handlers.length;i<len;i++){
 				handlers[i].apply(this,args);
@@ -63,10 +60,13 @@ Object.defineProperty(Widget,'prototype',{
 				this._handlers[type] = [];
 				return this;
 			}
-			handlers = this._handlers[type];
-			for(var i=0,len=handlers.length;i<len;i++){
-				if(handlers[i]===handler){
-					this._handlers[type].splice(i,1);
+			var handlers = this._handlers[type];
+			var cb;
+			var i = handlers.length;
+			while(i--){
+				cb = handlers[i];
+				if(cb===handler || cb.fn === handler){
+					handlers.splice(i,1);
 					break;
 				}
 			}
