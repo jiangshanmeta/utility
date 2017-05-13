@@ -137,6 +137,23 @@ if(!function_exists('array_addToSet')){
 	}
 }
 
+if(!function_exists("array_swap")){
+	function array_swap(&$arr,$index1,$index2){
+		if(!is_array($arr)){
+			return false;
+		}
+		if($index1==$index2){
+			return false;
+		}
+		$temp = $arr[$index1];
+		$arr[$index1] = $arr[$index2];
+		$arr[$index2] = $temp;
+		return true;
+	}
+}
+
+
+
 // 获取文件扩展名
 if(!function_exists('get_extension')){
 	function get_extension($filename){
