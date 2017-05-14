@@ -1,4 +1,4 @@
-<?
+<?php
 require_once('Fields.php');
 class Field_array extends Fields{
 	function __construct($showName,$name,$isMustInput=FALSE){

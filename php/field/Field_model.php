@@ -1,7 +1,6 @@
 <?php
 require_once('Field_mongoid.php');
 class Field_model extends Field_mongoid{
-	static protected $_cache = [];
 	public $real_value;
 	protected $_model_name;
 	protected $_show_field;
@@ -29,11 +28,11 @@ class Field_model extends Field_mongoid{
 			return;
 		}
 		$modelName = $this->_model_name;
-		if(!isset(self::$_cache[$modelName][$this->value])){
-			self::$_cache[$modelName][$this->value] = new $modelName;
-			self::$_cache[$modelName][$this->value]->init_with_id($this->value);
+		if(!isset(self::$_cache_model[$modelName][$this->value])){
+			self::$_cache_model[$modelName][$this->value] = new $modelName;
+			self::$_cache_model[$modelName][$this->value]->init_with_id($this->value);
 		}
-		$this->real_value = &self::$_cache[$modelName][$this->value];
+		$this->real_value = &self::$_cache_model[$modelName][$this->value];
 	}
 
 	function gen_show_value(){

@@ -1,7 +1,6 @@
 <?php
 require_once('Field_array_mongoid.php');
 class Field_array_model extends Field_array_mongoid{
-	static protected $_cache = [];
 	public $real_value = [];
 	protected $_model_name;
 	protected $_show_field;
@@ -27,11 +26,11 @@ class Field_array_model extends Field_array_mongoid{
 		}
 		$modelName = $this->_model_name;
 		foreach ($this->value as $mongoid) {
-			if(!isset(self::$_cache[$modelName][$mongoid])){
-				self::$_cache[$modelName][$mongoid] = new $modelName;
-				self::$_cache[$modelName][$mongoid]->init_with_id($mongoid);
+			if(!isset(self::$_cache_model[$modelName][$mongoid])){
+				self::$_cache_model[$modelName][$mongoid] = new $modelName;
+				self::$_cache_model[$modelName][$mongoid]->init_with_id($mongoid);
 			}
-			$this->real_value[$mongoid] = &self::$_cache[$modelName][$mongoid];
+			$this->real_value[$mongoid] = &self::$_cache_model[$modelName][$mongoid];
 		}
 	}
 
