@@ -1,6 +1,7 @@
 <?
 require_once('Field_int.php');
 class Field_enum extends Field_int{
+	static protected $_enum_pool = [];
 	protected $_enum_pool_key;
 	public $enum;
 	public $enumReverse;

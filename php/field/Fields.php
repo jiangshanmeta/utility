@@ -7,7 +7,6 @@ class Fields{
 	public $tips;
 	public $value;
 	public $default;
-	static $_enum_pool = [];
 	function __construct($showName,$name,$isMustInput=FALSE){
 		$this->showName = $showName;
 		$this->name = $name;
