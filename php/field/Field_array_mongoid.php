@@ -1,11 +1,11 @@
 <?php
 require_once('Field_array.php');
 class Field_array_mongoid extends Field_array{
-	function __construct($showName,$name,$isMustInput=FALSE){
-		parent::__construct($showName,$name,$isMustInput);
+	public function __construct($show_name,$name,$is_must_input=FALSE){
+		parent::__construct($show_name,$name,$is_must_input);
 	}
 
-	function gen_value($input){
+	public function gen_value($input){
 		$input = parent::gen_value($input);
 		$rst = [];
 		foreach ($input as $value) {

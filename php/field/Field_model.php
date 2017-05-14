@@ -4,22 +4,22 @@ class Field_model extends Field_mongoid{
 	public $real_value;
 	protected $_model_name;
 	protected $_show_field;
-	function __construct($showName,$name,$isMustInput=FALSE,$modelName=''){
-		parent::__construct($showName,$name,$isMustInput);
-		if($modelName!==''){
-			$this->set_model_name($modelName);
+	public function __construct($show_name,$name,$is_must_input=FALSE,$model_name=''){
+		parent::__construct($show_name,$name,$is_must_input);
+		if($model_name!==''){
+			$this->set_model_name($model_name);
 		}
 	}
 
-	function set_model_name($modelName){
-		$this->_model_name = $modelName;
+	public function set_model_name($model_name){
+		$this->_model_name = $model_name;
 	}
 
-	function set_show_field($showField){
+	public function set_show_field($showField){
 		$this->_show_field = $showField;
 	}
 
-	function init($value){
+	public function init($value){
 		parent::init($value);
 		if(!MongoId::isValid($this->value)){
 			return;
@@ -27,15 +27,15 @@ class Field_model extends Field_mongoid{
 		if(empty($this->_model_name)){
 			return;
 		}
-		$modelName = $this->_model_name;
-		if(!isset(self::$_cache_model[$modelName][$this->value])){
-			self::$_cache_model[$modelName][$this->value] = new $modelName;
-			self::$_cache_model[$modelName][$this->value]->init_with_id($this->value);
+		$model_name = $this->_model_name;
+		if(!isset(self::$_cache_model[$model_name][$this->value])){
+			self::$_cache_model[$model_name][$this->value] = new $model_name;
+			self::$_cache_model[$model_name][$this->value]->init_with_id($this->value);
 		}
-		$this->real_value = &self::$_cache_model[$modelName][$this->value];
+		$this->real_value = &self::$_cache_model[$model_name][$this->value];
 	}
 
-	function gen_show_value(){
+	public function gen_show_value(){
 		return $this->real_value->field_list[$this->_show_field]->gen_show_value();
 	}
 

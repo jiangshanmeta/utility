@@ -1,9 +1,9 @@
 <?
 require_once('Fields.php');
 class Field_string extends Fields{
-	public function __construct($showName,$name,$isMustInput=FALSE){
-		parent::__construct($showName,$name,$isMustInput);
-		$this->setDefault('');
+	public function __construct($show_name,$name,$is_must_input=FALSE){
+		parent::__construct($show_name,$name,$is_must_input);
+		$this->set_default('');
 		$this->typ = 'Field_string';
 	}
 	public function gen_value($input){
@@ -22,8 +22,8 @@ class Field_string extends Fields{
 				$value = "";
 				break;
 		}
-		$inputName = $this->build_input_name($typ);
-		return "<input  type=\"text\"  class=\"$this->editorClass\" value=\"$value\" name=\"$inputName\" id=\"$inputName\"   >";
+		$input_name = $this->build_input_name($typ);
+		return "<input  type=\"text\"  class=\"$this->editor_class\" value=\"$value\" name=\"$input_name\" id=\"$input_name\"   >";
 	}
 }
 ?>

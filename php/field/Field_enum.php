@@ -1,14 +1,15 @@
 <?
 require_once('Field_int.php');
 class Field_enum extends Field_int{
-	protected $_enum_pool_key;
 	public $enum;
-	public $enumReverse;
-	public $can_select;
-	function __construct($showName,$name,$isMustInput=FALSE,$tableName=''){
-		parent::__construct($showName,$name,$isMustInput);
-		if($tableName!=''){
-			$this->setEnumPoolKey($tableName.'_'.$name);			
+	public $enum_reverse;
+	public $can_select;	
+	protected $_enum_key;
+
+	public function __construct($show_name,$name,$is_must_input=FALSE,$table_name=''){
+		parent::__construct($show_name,$name,$is_must_input);
+		if($table_name!=''){
+			$this->set_enum_key($table_name.'_'.$name);			
 		}
 		$this->typ = 'Field_enum';
 	}
@@ -24,25 +25,25 @@ class Field_enum extends Field_int{
 		return $this->enum[$this->value];
 	}
 
-	public function setEnumPoolKey($key){
-		$this->_enum_pool_key = $key;
+	public function set_enum_key($key){
+		$this->_enum_key = $key;
 	}
-	public function setEnum($enum){
-		if($this->_enum_pool_key){
-			if(!isset(self::$_cache_enum[$this->_enum_pool_key]['enum'])){
-				self::$_cache_enum[$this->_enum_pool_key]['enum'] = $enum;
-				self::$_cache_enum[$this->_enum_pool_key]['flip'] = array_flip($enum);
-				self::$_cache_enum[$this->_enum_pool_key]['keys'] = array_keys($enum);
+	public function set_enum($enum){
+		if($this->_enum_key){
+			if(!isset(self::$_cache_enum[$this->_enum_key]['enum'])){
+				self::$_cache_enum[$this->_enum_key]['enum'] = $enum;
+				self::$_cache_enum[$this->_enum_key]['flip'] = array_flip($enum);
+				self::$_cache_enum[$this->_enum_key]['keys'] = array_keys($enum);
 			}
-			$this->enum = & self::$_cache_enum[$this->_enum_pool_key]['enum'];
-			$this->enumReverse = & self::$_cache_enum[$this->_enum_pool_key]['flip'];
-			$this->can_select = & self::$_cache_enum[$this->_enum_pool_key]['keys'];
+			$this->enum = & self::$_cache_enum[$this->_enum_key]['enum'];
+			$this->enum_reverse = & self::$_cache_enum[$this->_enum_key]['flip'];
+			$this->can_select = & self::$_cache_enum[$this->_enum_key]['keys'];
 		}else{
 			$this->enum = $enum;
-			$this->enumReverse = array_flip($enum);
+			$this->enum_reverse = array_flip($enum);
 			$this->can_select = array_keys($enum);
 		}
-		$this->setDefault($this->can_select[0]);
+		$this->set_default($this->can_select[0]);
 	}
 
 	public function gen_editor($typ){
@@ -57,8 +58,8 @@ class Field_enum extends Field_int{
 				$value = $this->gen_value($this->default);
 				break;
 		}
-		$inputName = $this->build_input_name($typ);
-		$string = "<select class=\"$this->editorClass\" value=\"$value\" name=\"$inputName\"  id=\"$inputName\"    >";
+		$input_name = $this->build_input_name($typ);
+		$string = "<select class=\"$this->editor_class\" value=\"$value\" name=\"$input_name\"  id=\"$input_name\"    >";
 		foreach ($this->enum as $key => $this_enum) {
 			$string .= "<option ".($key==$value?'selected':'')." value=\"$key\" >$this_enum</option>";
 		}

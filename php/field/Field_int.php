@@ -1,11 +1,11 @@
 <?
 require_once('Fields.php');
 class Field_int extends Fields{
-	function __construct($showName,$name,$isMustInput=FALSE){
-		parent::__construct($showName,$name,$isMustInput);
+	public function __construct($show_name,$name,$is_must_input=FALSE){
+		parent::__construct($show_name,$name,$is_must_input);
 		$this->typ = 'Field_int';
 	}
-	function gen_value($input){
+	public function gen_value($input){
 		return (int)$input;
 	}
 	public function gen_editor($typ){
@@ -21,8 +21,8 @@ class Field_int extends Fields{
 				$value = "";
 				break;
 		}
-		$inputName = $this->build_input_name($typ);
-		return "<input type=\"text\"  class=\"$this->editorClass\" value=\"$value\" name=\"$inputName\" id=\"$inputName\"   >";
+		$input_name = $this->build_input_name($typ);
+		return "<input type=\"text\"  class=\"$this->editor_class\" value=\"$value\" name=\"$input_name\" id=\"$input_name\"   >";
 	}
 
 

@@ -1,17 +1,17 @@
 <?
 require_once('Fields.php');
 class Field_ts extends Fields{
-	function __construct($showName,$name,$isMustInput=FALSE){
-		parent::__construct($showName,$name,$isMustInput);
+	public function __construct($show_name,$name,$is_must_input=FALSE){
+		parent::__construct($show_name,$name,$is_must_input);
 		$this->typ = 'Field_ts';
 	}
-	function gen_value($input){
+	public function gen_value($input){
 		if(is_string($input) && !is_numeric($input)){
 			$input = strtotime($input);
 		}
 		return (int)$input;
 	}
-	function gen_show_value(){
+	public function gen_show_value(){
 		if($this->value<86400){
 			return "-";
 		}

@@ -1,22 +1,22 @@
 <?
 require_once('Field_string.php');
 class Field_pwd extends Field_string{
-	function __construct($showName,$name,$isMustInput=FALSE){
-		parent::__construct($showName,$name,$isMustInput);
+	public function __construct($show_name,$name,$is_must_input=FALSE){
+		parent::__construct($show_name,$name,$is_must_input);
 		$this->typ = 'Field_pwd';
 	}
-	function gen_value($value){
+	public function gen_value($value){
 		return strtolower(md5($value));
 	}
-	function init($value){
+	public function init($value){
 		$this->value = (string)$value;
 	}
-	function setDefault($default){
+	public function set_default($default){
 		$this->default = (string)$default;
 	}
 	public function gen_editor($typ){
-		$inputName = $this->build_input_name($typ);
-		return "<input type=\"password\" class=\"$this->editorClass\"  name=\"$inputName\" id=\"$inputName\"   >";
+		$input_name = $this->build_input_name($typ);
+		return "<input type=\"password\" class=\"$this->editor_class\"  name=\"$input_name\" id=\"$input_name\"   >";
 	}
 
 
