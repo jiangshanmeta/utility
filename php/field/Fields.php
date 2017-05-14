@@ -7,6 +7,7 @@ class Fields{
 	public $tips;
 	public $value;
 	public $default;
+	static protected $_cache_enum = [];
 	static protected $_cache_model = [];
 	function __construct($showName,$name,$isMustInput=FALSE){
 		$this->showName = $showName;

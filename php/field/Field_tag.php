@@ -13,12 +13,12 @@ class Field_tag extends Field_array{
 	}
 	function setEnum($enum){
 		if($this->_enum_pool_key){
-			if(!isset(self::$_enum_pool[$this->_enum_pool_key]['enum'])){
-				self::$_enum_pool[$this->_enum_pool_key]['enum'] = $enum;
-				self::$_enum_pool[$this->_enum_pool_key]['keys'] = array_keys($enum);
+			if(!isset(self::$_cache_enum[$this->_enum_pool_key]['enum'])){
+				self::$_cache_enum[$this->_enum_pool_key]['enum'] = $enum;
+				self::$_cache_enum[$this->_enum_pool_key]['keys'] = array_keys($enum);
 			}
-			$this->enum = &self::$_enum_pool[$this->_enum_pool_key]['enum'];
-			$this->can_select = &self::$_enum_pool[$this->_enum_pool_key]['keys'];
+			$this->enum = &self::$_cache_enum[$this->_enum_pool_key]['enum'];
+			$this->can_select = &self::$_cache_enum[$this->_enum_pool_key]['keys'];
 		}else{
 			$this->enum = $enum;
 			$this->can_select = array_keys($enum);

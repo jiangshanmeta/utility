@@ -1,7 +1,6 @@
 <?
 require_once('Field_int.php');
 class Field_enum extends Field_int{
-	static protected $_enum_pool = [];
 	protected $_enum_pool_key;
 	public $enum;
 	public $enumReverse;
@@ -30,14 +29,14 @@ class Field_enum extends Field_int{
 	}
 	public function setEnum($enum){
 		if($this->_enum_pool_key){
-			if(!isset(self::$_enum_pool[$this->_enum_pool_key]['enum'])){
-				self::$_enum_pool[$this->_enum_pool_key]['enum'] = $enum;
-				self::$_enum_pool[$this->_enum_pool_key]['flip'] = array_flip($enum);
-				self::$_enum_pool[$this->_enum_pool_key]['keys'] = array_keys($enum);
+			if(!isset(self::$_cache_enum[$this->_enum_pool_key]['enum'])){
+				self::$_cache_enum[$this->_enum_pool_key]['enum'] = $enum;
+				self::$_cache_enum[$this->_enum_pool_key]['flip'] = array_flip($enum);
+				self::$_cache_enum[$this->_enum_pool_key]['keys'] = array_keys($enum);
 			}
-			$this->enum = & self::$_enum_pool[$this->_enum_pool_key]['enum'];
-			$this->enumReverse = & self::$_enum_pool[$this->_enum_pool_key]['flip'];
-			$this->can_select = & self::$_enum_pool[$this->_enum_pool_key]['keys'];
+			$this->enum = & self::$_cache_enum[$this->_enum_pool_key]['enum'];
+			$this->enumReverse = & self::$_cache_enum[$this->_enum_pool_key]['flip'];
+			$this->can_select = & self::$_cache_enum[$this->_enum_pool_key]['keys'];
 		}else{
 			$this->enum = $enum;
 			$this->enumReverse = array_flip($enum);
