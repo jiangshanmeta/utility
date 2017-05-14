@@ -5,14 +5,14 @@ class Moment{
 	// 返回字符串的方法一律以Str结尾
 	// get**Str的和get**TS的第一个参数可以是时间戳、时间字符串
 	// get**Str的第二个参数是生成时间字符串是的连接符
+	private $_datatime;
 	function __construct(){
-		$this->setTimeZone();
+		$this->set_timezone();
+		$this->_datatime = new DateTime();
 	}
-	private function _ensureTSLegal($ts){
+	private function _ensure_TS_legal($ts){
 		if(is_numeric($ts)){
 			$ts = (int)$ts;
-			// 下面两个判断借鉴ci的date_helper的写法，顺便发现了一个bug
-			// 处理201611或112016这种情况
 			if(preg_match('/^\d{6}$/i', $ts)){
 				if(in_array(substr($ts,0,2), ['19','20'])){
 					return DateTime::createFromFormat('Ym', $ts)->format('U');
@@ -20,10 +20,6 @@ class Moment{
 					return DateTime::createFromFormat('mY', $ts)->format('U');
 				}
 			}
-			// 处理类似于20161122这样的情况
-			// issue https://github.com/bcit-ci/CodeIgniter/issues/4917
-			// fix commit https://github.com/bcit-ci/CodeIgniter/commit/820d9cdaac9a9c0371404ce82b60a26ed3ac938f
-			// 我本来的写法是正则匹配一段一段来
 			if(preg_match('/^\d{8}$/i',$ts)){
 				return DateTime::createFromFormat('Ymd', $ts)->format('U');
 			}
@@ -39,13 +35,12 @@ class Moment{
 		return $ts;
 	}
 
-	private function _genTSStr($fmt,$ts){
-		$date = new DateTime();
-		$date->setTimestamp($ts);
-		return $date->format($fmt);
+	private function _gen_TS_str($fmt,$ts){
+		$this->_datatime->setTimestamp($ts);
+		return $this->_datatime->format($fmt);
 	}
 
-	public function setTimeZone($str='Asia/Shanghai'){
+	public function set_timezone($str='Asia/Shanghai'){
 		date_default_timezone_set($str);
 	}
 
@@ -57,97 +52,98 @@ class Moment{
 	// 获得Str
 	// month Str
 	public function getPrevMonthStr($ts=NULL,$fmt='Y-m'){
-		$ts = $this->_ensureTSLegal($ts);
-		return $this->getCurMonthStr(strtotime("-1 month",$ts),$fmt);
+		$ts = $this->_ensure_TS_legal($ts);
+		return $this->get_cur_month_str(strtotime("-1 month",$ts),$fmt);
 	}
-	public function getCurMonthStr($ts=NULL,$fmt='Y-m'){
-		$ts = $this->_ensureTSLegal($ts);
-		return $this->_genTSStr($fmt,$this->getMonthBeginTS($ts));
+	public function get_cur_month_str($ts=NULL,$fmt='Y-m'){
+		$ts = $this->_ensure_TS_legal($ts);
+		return $this->_gen_TS_str($fmt,$this->get_month_beginTS($ts));
 	}
 	public function getNextMonthStr($ts=NULL,$fmt='Y-m'){
-		$ts = $this->_ensureTSLegal($ts);
-		return $this->getCurMonthStr(strtotime("+1 month",$ts),$fmt);
+		$ts = $this->_ensure_TS_legal($ts);
+		return $this->get_cur_month_str(strtotime("+1 month",$ts),$fmt);
 	}
 
 	// week  Str
-	public function getPrevWeekStr($ts=NULL,$fmt='Y-m-d'){
-		$ts = $this->_ensureTSLegal($ts);
+	public function get_prev_week_str($ts=NULL,$fmt='Y-m-d'){
+		$ts = $this->_ensure_TS_legal($ts);
 		$ts -= 86400*7;
-		return $this->getCurWeekStr($ts,$fmt);
+		return $this->get_cur_week_str($ts,$fmt);
 	}
-	public function getCurWeekStr($ts=NULL,$fmt='Y-m-d'){
-		$ts = $this->_ensureTSLegal($ts);
-		return $this->_genTSStr($fmt,$this->getWeekBeginTS($ts-(date('N',$ts)-1)*86400));
+	public function get_cur_week_str($ts=NULL,$fmt='Y-m-d'){
+		$ts = $this->_ensure_TS_legal($ts);
+		return $this->_gen_TS_str($fmt,$this->get_week_beginTS($ts-(date('N',$ts)-1)*86400));
 	}
-	public function getNextWeekStr($ts=NULL,$fmt='Y-m-d'){
-		$ts = $this->_ensureTSLegal($ts);
+	public function get_next_week_str($ts=NULL,$fmt='Y-m-d'){
+		$ts = $this->_ensure_TS_legal($ts);
 		$ts += 86400*7;
-		return $this->getCurWeekStr($ts,$fmt);
+		return $this->get_cur_week_str($ts,$fmt);
 	}	
 
 	// day  Str
-	public function getPrevDayStr($ts=NULL,$fmt='Y-m-d'){
-		$ts = $this->_ensureTSLegal($ts);
-		return $this->getCurDayStr(strtotime("-1 day",$ts),$fmt);
+	public function get_prev_day_str($ts=NULL,$fmt='Y-m-d'){
+		$ts = $this->_ensure_TS_legal($ts);
+		return $this->get_cur_day_str(strtotime("-1 day",$ts),$fmt);
 	}
-	public function getCurDayStr($ts=NULL,$fmt='Y-m-d'){
-		$ts = $this->_ensureTSLegal($ts);
-		return $this->_genTSStr($fmt,$this->getDayBeginTS($ts));
+	public function get_cur_day_str($ts=NULL,$fmt='Y-m-d'){
+		$ts = $this->_ensure_TS_legal($ts);
+		return $this->_gen_TS_str($fmt,$this->get_day_beginTS($ts));
 	}
-	public function getNextDayStr($ts=NULL,$fmt='Y-m-d'){
-		$ts = $this->_ensureTSLegal($ts);
-		return $this->getCurDayStr(strtotime("+1 day",$ts),$fmt);
+	public function get_next_day_str($ts=NULL,$fmt='Y-m-d'){
+		$ts = $this->_ensure_TS_legal($ts);
+		return $this->get_cur_day_str(strtotime("+1 day",$ts),$fmt);
 	}
 
 	// 获得时间戳
-	public function getCurTS(){
+	public function get_curTS(){
 		return time();
 	}
-	public function getMonthBeginTS($ts=NULL){
-		$ts = $this->_ensureTSLegal($ts);
+
+	public function get_month_beginTS($ts=NULL){
+		$ts = $this->_ensure_TS_legal($ts);
 		return strtotime(date('Ym01',$ts));
 	}
-
-	public function getMonthEndTS($ts=NULL){
-		$ts = $this->_ensureTSLegal($ts);
+	public function get_month_endTS($ts=NULL){
+		$ts = $this->_ensure_TS_legal($ts);
 		return mktime(23, 59, 59, date('m',$ts), date('t',$ts), date('Y',$ts));
 	}
-	public function getWeekBeginTS($ts=NULL){
-		$ts = $this->_ensureTSLegal($ts);
+
+	public function get_week_beginTS($ts=NULL){
+		$ts = $this->_ensure_TS_legal($ts);
 		return strtotime(date('Y-m-d',$ts-(date('N',$ts)-1)*86400));
 	}
 
-	public function getWeekEndTS($ts=NULL){
-		return $this->getWeekBeginTS($ts) + 86400*7 - 1;
+	public function get_week_endTS($ts=NULL){
+		return $this->get_week_beginTS($ts) + 86400*7 - 1;
 	}
 
-	public function getDayBeginTS($ts=NULL){
-		$ts = $this->_ensureTSLegal($ts);
+	public function get_day_beginTS($ts=NULL){
+		$ts = $this->_ensure_TS_legal($ts);
 		return mktime(0, 0, 0, date('m',$ts), date('d',$ts), date('Y',$ts));
 	}
 
-	public function getDayEndTS($ts=NULL){
-		$ts = $this->_ensureTSLegal($ts);
+	public function get_day_endTS($ts=NULL){
+		$ts = $this->_ensure_TS_legal($ts);
 		return mktime(23, 59, 59, date('m',$ts), date('d',$ts), date('Y',$ts));
 	}
 
-	public function getTotalDaysInMonth($ts=NULL){
-		$ts = $this->_ensureTSLegal($ts);
+	public function get_days_in_month($ts=NULL){
+		$ts = $this->_ensure_TS_legal($ts);
 		return (int)date('t',$ts);
 	}
 
-	public function getDayInYear($ts=NULL){
-		$ts = $this->_ensureTSLegal($ts);
+	public function get_which_day_of_year($ts=NULL){
+		$ts = $this->_ensure_TS_legal($ts);
 		return (int)date('z',$ts);
 	}
 
-	public function getDayInMonth($ts=NULL){
-		$ts = $this->_ensureTSLegal($ts);
+	public function get_which_day_of_month($ts=NULL){
+		$ts = $this->_ensure_TS_legal($ts);
 		return (int)date('j',$ts);
 	}
 
-	public function getDayInWeek($ts=NULL){
-		$ts = $this->_ensureTSLegal($ts);
+	public function get_which_day_of_week($ts=NULL){
+		$ts = $this->_ensure_TS_legal($ts);
 		return (int)date('w',$ts);		
 	}
 
