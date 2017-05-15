@@ -45,13 +45,13 @@ class Moment{
 	}
 
 	public function strtotime($str){
-		return (new DateTime($str))->format('U');
+		return (int)(new DateTime($str))->format('U');
 	}
 
 
 	// 获得Str
 	// month Str
-	public function getPrevMonthStr($ts=NULL,$fmt='Y-m'){
+	public function get_prev_month_str($ts=NULL,$fmt='Y-m'){
 		$ts = $this->_ensure_TS_legal($ts);
 		return $this->get_cur_month_str(strtotime("-1 month",$ts),$fmt);
 	}
@@ -59,7 +59,7 @@ class Moment{
 		$ts = $this->_ensure_TS_legal($ts);
 		return $this->_gen_TS_str($fmt,$this->get_month_beginTS($ts));
 	}
-	public function getNextMonthStr($ts=NULL,$fmt='Y-m'){
+	public function get_next_month_str($ts=NULL,$fmt='Y-m'){
 		$ts = $this->_ensure_TS_legal($ts);
 		return $this->get_cur_month_str(strtotime("+1 month",$ts),$fmt);
 	}
@@ -112,7 +112,6 @@ class Moment{
 		$ts = $this->_ensure_TS_legal($ts);
 		return strtotime(date('Y-m-d',$ts-(date('N',$ts)-1)*86400));
 	}
-
 	public function get_week_endTS($ts=NULL){
 		return $this->get_week_beginTS($ts) + 86400*7 - 1;
 	}
@@ -121,7 +120,6 @@ class Moment{
 		$ts = $this->_ensure_TS_legal($ts);
 		return mktime(0, 0, 0, date('m',$ts), date('d',$ts), date('Y',$ts));
 	}
-
 	public function get_day_endTS($ts=NULL){
 		$ts = $this->_ensure_TS_legal($ts);
 		return mktime(23, 59, 59, date('m',$ts), date('d',$ts), date('Y',$ts));
@@ -134,14 +132,12 @@ class Moment{
 
 	public function get_which_day_of_year($ts=NULL){
 		$ts = $this->_ensure_TS_legal($ts);
-		return (int)date('z',$ts);
+		return (int)date('z',$ts)+1;
 	}
-
 	public function get_which_day_of_month($ts=NULL){
 		$ts = $this->_ensure_TS_legal($ts);
 		return (int)date('j',$ts);
 	}
-
 	public function get_which_day_of_week($ts=NULL){
 		$ts = $this->_ensure_TS_legal($ts);
 		return (int)date('w',$ts);		
