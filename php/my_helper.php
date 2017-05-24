@@ -183,6 +183,50 @@ if(!function_exists("array_every")){
 	}
 }
 
+// 根据回调$fn找到数组中最大的值
+if(!function_exists("array_max")){
+	function array_max(array $arr,$fn=NULL){
+		if(!is_callable($fn)){
+			$fn = function($value){
+				return $value;
+			};
+		}
+		$result = -INF;
+		$lastComputed = -INF;
+		foreach ($arr as $key => $value) {
+			$computed = $fn($value,$key);
+			if($computed>$lastComputed || ($computed===-INF && $result=== -INF)){
+				$lastComputed = $computed;
+				$result = $value;
+			}
+		}
+		return $result;
+	}
+}
+
+// 根据回调$fn找到数组中最小的值
+if(!function_exists("array_min")){
+	function array_min(array $arr,$fn=NULL){
+		if(!is_callable($fn)){
+			$fn = function($value){
+				return $value;
+			};
+		}
+		$result = INF;
+		$lastComputed = INF;
+		foreach ($arr as $key => $value) {
+			$computed = $fn($value,$key);
+			if($computed<$lastComputed || ($computed===INF && $result===INF)){
+				$lastComputed = $computed;
+				$result = $value;
+			}
+		}
+		return $result;
+	}
+}
+
+
+
 // 获取文件扩展名
 if(!function_exists('get_extension')){
 	function get_extension($filename){
