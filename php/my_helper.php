@@ -137,6 +137,7 @@ if(!function_exists('array_addToSet')){
 	}
 }
 
+// 交换数组中两个元素
 if(!function_exists("array_swap")){
 	function array_swap(&$arr,$index1,$index2){
 		if(!is_array($arr)){
@@ -152,7 +153,35 @@ if(!function_exists("array_swap")){
 	}
 }
 
+// 数组中每个元素执行一次$fn,当有一个元素使得$fn返回真值时返回true,其余返回false
+if(!function_exists("array_some")){
+	function array_some(array $arr,$fn){
+		if(!is_callable($fn)){
+			return false;
+		}
+		foreach ($arr as $key=>$value) {
+			if($fn($value,$key)){
+				return true;
+			}
+		}
+		return false;
+	}
+}
 
+// 数组中每一个元素执行$fn，若$fn均返回真值则返回true,否则返回false
+if(!function_exists("array_every")){
+	function array_every(array $arr,$fn){
+		if(!is_callable($fn)){
+			return false;
+		}
+		foreach ($arr as $key => $value) {
+			if(!$fn($value,$key)){
+				return false;
+			}
+		}
+		return true;
+	}
+}
 
 // 获取文件扩展名
 if(!function_exists('get_extension')){
