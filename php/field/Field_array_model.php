@@ -25,6 +25,7 @@ class Field_array_model extends Field_array_mongoid{
 			return;
 		}
 		$model_name = $this->_model_name;
+		$this->real_value = [];
 		foreach ($this->value as $mongoid) {
 			if(!isset(self::$_cache_model[$model_name][$mongoid])){
 				self::$_cache_model[$model_name][$mongoid] = new $model_name;

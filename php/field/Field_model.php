@@ -22,6 +22,7 @@ class Field_model extends Field_mongoid{
 	public function init($value){
 		parent::init($value);
 		if(!MongoId::isValid($this->value)){
+			$this->real_value = NULL;
 			return;
 		}
 		if(empty($this->_model_name)){
@@ -36,7 +37,10 @@ class Field_model extends Field_mongoid{
 	}
 
 	public function gen_show_value(){
-		return $this->real_value->field_list[$this->_show_field]->gen_show_value();
+		if($this->real_value instanceof $this->_model_name){
+			return $this->real_value->field_list[$this->_show_field]->gen_show_value();
+		}
+		return $this->value;
 	}
 
 
