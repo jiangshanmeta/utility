@@ -19,3 +19,10 @@
 </mapimg>
 ```
 
+## posimg
+
+用于确定某点在图片位置的百分比，鼠标点击确定该点
+
+```html
+<posimg src="/misc/js/08.jpg"></posimg>
+```
