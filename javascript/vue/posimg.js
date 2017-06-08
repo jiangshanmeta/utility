@@ -1,7 +1,7 @@
 (function(Vue){
 
 Vue.component("posimg",{
-	template:"<div style='width:min-content;'><img v-bind:src='src'>x轴{{percentX}}%<br> y轴{{percentY}}% </div>",
+	template:"<div style='width:min-content;position:relative;'><img v-bind:src='src' ><div style='position:absolute;'>x轴{{percentX}}%  {{x}}px<br> y轴{{percentY}}% {{y}}px</div></div>",
 	props:{
 		'src':{
 			type:String,
@@ -28,8 +28,8 @@ Vue.component("posimg",{
 		this.$el.addEventListener("click",function(e){
 			this.imgW = this.$el.clientWidth;
 			this.imgH = this.$el.clientHeight;
-			this.x = e.clientX;
-			this.y = e.clientY;
+			this.x = e.offsetX;
+			this.y = e.offsetY;
 		}.bind(this))
 	}
 });

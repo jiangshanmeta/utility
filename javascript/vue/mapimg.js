@@ -91,6 +91,7 @@ var eventHandler = function(event,component){
 		x:event.offsetX,
 		y:event.offsetY
 	};
+
 	var eventType = event.type;
 	var checkHref = eventType==='click'?true:false;
 	var map = component.map;
@@ -134,6 +135,7 @@ Vue.component('mapimg',{
 		var eventHash = {};
 		for(var i=0,len=map.length;i<len;i++){
 			area = map[i];
+
 			if(typeof area['on'] === 'object'){
 				keys = Object.keys(area['on']);
 				for(var j=0,onLen=keys.length;j<onLen;j++){
@@ -147,6 +149,18 @@ Vue.component('mapimg',{
 					eventHash[k] = true;
 				}
 			}
+
+			if(typeof area['href'] === 'string'){
+				if(eventHash['click']){
+					continue;
+				}
+				this.$el.addEventListener('click',function(e){
+					eventHandler(e,this);
+				}.bind(this));
+				eventHash['click'] = true;
+			}
+
+
 		}
 	
 	}
