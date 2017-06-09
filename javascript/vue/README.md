@@ -39,3 +39,16 @@
 ```html
 <vframe src="https://v.qq.com/iframe/player.html?vid=a0511nb4te1&tiny=0&auto=0" :ratio="0.778" ></vframe>
 ```
+
+## grayimg
+
+用灰度比例表示进度的图
+
+* ratio 小数，灰度比例
+* src 图片链接
+* grayclass 实现灰度的CSS类名
+* dir 方向，可以从 btt ttb ltr rtl 选择
+
+```html
+<grayimg src="/misc/js/08.jpg" v-bind:ratio="ratio" dir='rtl' grayclass="gray1"></grayimg>
+```
