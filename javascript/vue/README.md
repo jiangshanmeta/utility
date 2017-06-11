@@ -52,3 +52,34 @@
 ```html
 <grayimg src="/misc/js/08.jpg" v-bind:ratio="ratio" dir='rtl' grayclass="gray1"></grayimg>
 ```
+
+## vaudio
+
+对audio封装的，提供开始/停止播放功能，主要用于h5页面
+
+参数：
+
+* playimgsrc 播放时展示的图片，必填
+* pauseimgsrc 停止时展示的图片，必填
+* src audio的src，必填
+* playimgclass 播放时图片的类，选填，默认为空
+* pauseimgclass 停止时图片的类，选填，默认为空
+* autoplay 是否自动播放，如不需要自动播放请勿添加此属性
+* loop 是否循环播放，默认循环播放
+
+
+公有方法：
+
+* play 播放音频，但用户停止播放后无法通过该方法播放音频
+* pause 停止播放
+
+```html
+<vaudio 
+	playimgsrc="/misc/imgs/music_close.png" 
+	pauseimgsrc="/misc/imgs/music_close_open.png"
+	src="/misc/audio/bgm.mp3"
+	playimgclass="animated rotate infinite"
+	pauseimgclass=""
+    autoplay="autoplay"
+></vaudio>
+```
