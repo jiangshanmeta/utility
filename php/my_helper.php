@@ -225,7 +225,19 @@ if(!function_exists("array_min")){
 	}
 }
 
-
+// 求得数组中元素的平均值，支持回调
+if(!function_exists("array_avg")){
+	function array_avg(array &$arr,$fn=NULL){
+		if(!is_callable($fn)){
+			return array_sum($arr)/count($arr);
+		}
+		$sum = 0;
+		foreach ($arr as $key => $value) {
+			$sum += $fn($value,$key);
+		}
+		return $sum/count($arr);
+	}
+}
 
 // 获取文件扩展名
 if(!function_exists('get_extension')){
