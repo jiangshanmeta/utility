@@ -83,3 +83,7 @@
     autoplay="autoplay"
 ></vaudio>
 ```
+
+## vue-config
+
+为Vue添加一个选项config，config中的字段会被代理到vue实例上，但这些字段不是响应式的
