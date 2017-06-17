@@ -87,3 +87,22 @@
 ## vue-config
 
 为Vue添加一个选项config，config中的字段会被代理到vue实例上，但这些字段不是响应式的
+
+## modal
+
+模态框，依赖于bootstrap的样式
+
+方法：
+
+* show 显示模态框
+* hide 关闭模态框
+
+props:
+
+* modaltype 用于控制模态框大小的类名，在bootstrap中提供了 modal-sm 和 modal-lg
+
+slots:
+
+* header 用于modal-header的slot
+* 默认slot 用于modal-body的slot
+* footer 用于modal-footer的slot
