@@ -2,7 +2,7 @@ Vue.component("modal",{
 	template:"<transition v-on:before-enter='beforeEnter' v-on:after-enter='afterEnter' v-on:before-leave='beforeLeave' v-on:after-leave='afterLeave'>"+
 				"<div class='modal fade' style='display:block' v-show='isshow' v-bind:class='[{in:isshow}]'>" +
 					"<div class='modal-backdrop' v-on:click='hide' style='z-index:0;' v-bind:class='[{in:isshow}]'></div>" +
-					"<div class='modal-dialog' v-bind:class='[modaltype]' style='z-index:1;height:100%;margin-top:0;margin-bottom:0;'>"+
+					"<div class='modal-dialog' v-bind:class='[type]' style='z-index:1;height:100%;margin-top:0;margin-bottom:0;'>"+
 						"<div class='modal-content' style='width:100%;position:absolute;top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);'>" +
 							"<div class='modal-header'>" +
 								"<button v-on:click='hide' class='close' aria-label='Close'><span aria-hidden='true'>&times;</span></button>" +
@@ -15,7 +15,7 @@ Vue.component("modal",{
 				"</div>" +
 			"</transition>",
 	props:{
-		modaltype:{
+		type:{
 			'type':String,
 			'default':'',
 		},

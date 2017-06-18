@@ -29,7 +29,7 @@
 
 ## vframe
 
-必填参数：
+props：
 
 * src iframe的src
 * ratio iframe的长宽比
@@ -44,6 +44,8 @@
 
 用灰度比例表示进度的图
 
+props:
+
 * ratio 小数，灰度比例
 * src 图片链接
 * grayclass 实现灰度的CSS类名
@@ -57,7 +59,7 @@
 
 对audio封装的，提供开始/停止播放功能，主要用于h5页面
 
-参数：
+props：
 
 * playimgsrc 播放时展示的图片，必填
 * pauseimgsrc 停止时展示的图片，必填
@@ -68,7 +70,7 @@
 * loop 是否循环播放，默认循环播放
 
 
-公有方法：
+方法：
 
 * play 播放音频，但用户停止播放后无法通过该方法播放音频
 * pause 停止播放
@@ -99,10 +101,32 @@
 
 props:
 
-* modaltype 用于控制模态框大小的类名，在bootstrap中提供了 modal-sm 和 modal-lg
+* type 用于控制模态框大小的类名，在bootstrap中提供了 modal-sm 和 modal-lg
 
 slots:
 
 * header 用于modal-header的slot
 * 默认slot 用于modal-body的slot
 * footer 用于modal-footer的slot
+
+事件：
+
+* show
+* shown
+* hide
+* hidden
+
+## alert
+
+警告框，依赖于bootstrap的样式
+
+props：
+
+* type 警告框类型
+
+事件：
+
+* show
+* shown
+* hide
+* hidden
