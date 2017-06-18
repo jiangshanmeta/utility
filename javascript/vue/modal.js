@@ -1,4 +1,4 @@
-Vue.component("modal",{
+Vue.component("b-modal",{
 	template:"<transition v-on:before-enter='beforeEnter' v-on:after-enter='afterEnter' v-on:before-leave='beforeLeave' v-on:after-leave='afterLeave'>"+
 				"<div class='modal fade' style='display:block' v-show='isshow' v-bind:class='[{in:isshow}]'>" +
 					"<div class='modal-backdrop' v-on:click='hide' style='z-index:0;' v-bind:class='[{in:isshow}]'></div>" +

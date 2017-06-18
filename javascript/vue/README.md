@@ -90,7 +90,7 @@ props：
 
 为Vue添加一个选项config，config中的字段会被代理到vue实例上，但这些字段不是响应式的
 
-## modal
+## b-modal
 
 模态框，依赖于bootstrap的样式
 
@@ -116,7 +116,7 @@ slots:
 * hide
 * hidden
 
-## alert
+## b-alert
 
 警告框，依赖于bootstrap的样式
 

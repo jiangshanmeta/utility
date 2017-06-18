@@ -1,4 +1,4 @@
-Vue.component("alert",{
+Vue.component("b-alert",{
 	template:"<transition v-on:before-enter='beforeEnter' v-on:after-enter='afterEnter' v-on:before-leave='beforeLeave' v-on:after-leave='afterLeave' >" +
 				"<div class='alert fade' v-bind:class='[type,{in:isshow}]' v-show='isshow' >" +
 					"<button v-on:click='hide' type='button' class='close'><span aria-hidden='true'>&times;</span></button>" +
