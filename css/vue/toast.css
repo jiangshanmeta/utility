@@ -1,0 +1,22 @@
+.v-toast-container{
+	position:fixed;
+	z-index:1050;
+	bottom:50px;
+	width:100%;
+	-webkit-transition:opacity 0.8s;
+	transition:opacity 0.8s;
+	opacity:0;
+}
+.v-toast-container.v-toast-active{
+	opacity:1;
+}
+.v-toast-container .v-toast-message{
+	font-size:14px;
+	width:270px;
+	margin:5px auto;
+	padding:5px;
+	text-align:center;
+	color:#000;
+	border-radius:7px;
+	background-color:#d8d8d8;
+}

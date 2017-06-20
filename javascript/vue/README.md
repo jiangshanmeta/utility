@@ -130,3 +130,40 @@ props：
 * shown
 * hide
 * hidden
+
+## alert
+
+```javascript
+this.$alert('naive',{
+	title:'title',
+	'btntext':'确定',
+});
+```
+
+返回promise
+
+## confirm
+
+```javascript
+this.$confirm("搞个大新闻？").then(function(){
+	console.log('搞了大新闻')
+},function(){
+	console.log('没搞大新闻')
+})
+```
+
+## prompt
+
+```javascript
+this.$prompt('请输入他的名字',{
+	placeholder:'它',
+}).then(function(name){
+	console.log(name)
+}).catch(function(){})
+```
+
+## toast
+
+```javascript
+this.$toast('naive',2000);
+```
