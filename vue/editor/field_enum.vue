@@ -1,5 +1,5 @@
 <template>
-    <el-select v-model="enum1">
+    <el-select v-model="currentValue">
         <el-option v-for="item in candidate" :key="item.value" :value="item.value" :label="item.label">
 
         </el-option>
@@ -7,13 +7,14 @@
 </template>
 
 <script>
-
+import {formHelper} from "./mixins"
 export default{
     data(){
         return {
-            enum1:this.value,
+            currentValue:this.value,
         }
     },
+    mixins:[formHelper],
     props:{
         value:{
             type:Number,
@@ -25,12 +26,12 @@ export default{
         }
     },
     watch:{
-        value(newVal){
-            this.enum1 = newVal;
-        },
-        enum1(newVal){
-            this.$emit('input',newVal);
-        }
+
     },
+    created(){
+        this._asyncProp('currentValue','value');
+        this._notifyInput('currentValue');
+    }
+
 }
 </script>

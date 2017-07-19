@@ -1,5 +1,9 @@
 <template>
-    <el-input v-model="currentValue"></el-input>
+    <el-input 
+        type="textarea" 
+        v-model="currentValue"
+        :placeholder="placeholder"
+    ></el-input>
 </template>
 
 <script>
@@ -13,9 +17,11 @@ export default{
     mixins:[formHelper],
     props:{
         value:{
-            // type:String,
             default:'',
-        }
+        },
+        placeholder:{
+            default:''
+        },
     },
     watch:{
 

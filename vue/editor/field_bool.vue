@@ -1,12 +1,13 @@
 <template>
     <field-enum 
-        v-model="editValue" 
+        v-model="currentValue" 
         :candidate="candidate"
     ></field-enum>
 
 </template>
 
 <script>
+import {formHelper} from "./mixins"
 import fieldEnum from './field_enum'
 let boolCandidate = [
                 {value:0,label:'否'},
@@ -15,19 +16,13 @@ let boolCandidate = [
 export default{
     data (){
         return {
-            editValue:this.value,
+            currentValue:this.value,
             candidate:boolCandidate,
         }
     },
+    mixins:[formHelper],
     watch:{
-        editValue(newVal){
-            this.$emit('input',newVal);
-        },
-        value(newVal){
-            if(newVal !== this.editValue){
-                this.editValue = newVal;
-            }
-        },
+
     },
     props:{
         value:{
@@ -37,6 +32,12 @@ export default{
     },
     components:{
         fieldEnum,
+    },
+    created(){
+        this._asyncProp('currentValue','value');
+        this._notifyInput('currentValue');
     }
+
+
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <el-checkbox-group v-model="selected">
+    <el-checkbox-group v-model="currentValue">
         <el-checkbox v-for="item in candidate" :key="item.value" :label="item.value">
             {{item.label}}
         </el-checkbox>
@@ -7,12 +7,14 @@
 </template>
 
 <script>
+import {formHelper} from "./mixins"
 export default{
     data (){
         return {
-            selected:this.value,
+            currentValue:this.value,
         }
     },
+    mixins:[formHelper],
     props:{
         value:{
             type:Array,
@@ -24,13 +26,17 @@ export default{
         },
     },
     watch:{
-        value(newVal){
-            this.selected = newVal;
+        // value(newVal){
+        //     this.selected = newVal;
 
-        },
-        selected(newVal){
-            this.$emit('input',newVal);
-        }
+        // },
+        // selected(newVal){
+        //     this.$emit('input',newVal);
+        // }
     },
+    created(){
+        this._asyncProp('currentValue','value');
+        this._notifyInput('currentValue');
+    }
 }
 </script>
