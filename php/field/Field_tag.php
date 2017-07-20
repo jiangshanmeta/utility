@@ -13,6 +13,19 @@ class Field_tag extends Field_array{
 		}
 		$this->typ = 'Field_tag';
 	}
+
+	public function gen_enum_config(){
+		$data = [];
+		foreach ($this->enum as $key => $value) {
+			$data[] = [
+				'value'=>$key,
+				'label'=>$value,
+			];
+		}
+		return $data;
+	}
+
+	
 	public function set_enum($enum){
 		if($this->_enum_key){
 			if(!isset(self::$_cache_enum[$this->_enum_key]['enum'])){

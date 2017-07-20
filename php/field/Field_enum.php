@@ -13,6 +13,18 @@ class Field_enum extends Field_int{
 		}
 		$this->typ = 'Field_enum';
 	}
+
+	public function gen_enum_config(){
+		$data = [];
+		foreach ($this->enum as $key => $value) {
+			$data[] = [
+				'value'=>$key,
+				'label'=>$value,
+			];
+		}
+		return $data;
+	}
+
 	public function gen_value($input){
 		$input = parent::gen_value($input);
 		if(!in_array($input, $this->can_select)){
