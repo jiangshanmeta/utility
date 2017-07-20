@@ -8,3 +8,15 @@
 ```html
 <vframe src="https://v.qq.com/iframe/player.html?vid=a0511nb4te1&tiny=0&auto=0" :ratio="0.778" ></vframe>
 ```
+
+## vtitle
+
+```javascript
+Vue.component('v-title',vtitle);
+```
+
+```html
+<v-title>客户{{username}}</v-title>
+```
+
+可以在页面内控制title

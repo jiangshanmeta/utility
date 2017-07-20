@@ -4,6 +4,7 @@ class Field_model extends Field_mongoid{
 	public $real_value;
 	protected $_model_name;
 	protected $_show_field;
+	protected $_enum = array();
 	public function __construct($show_name,$name,$is_must_input=FALSE,$model_name=''){
 		parent::__construct($show_name,$name,$is_must_input);
 		if($model_name!==''){
@@ -43,6 +44,20 @@ class Field_model extends Field_mongoid{
 		return $this->value;
 	}
 
+	public function set_enum(){
+
+	}
+	
+    public function gen_enum_config(){
+        $data = [];
+        foreach ($this->enum as $key => $value) {
+            $data[] = [
+                'value'=>$key,
+                'label'=>$value,
+            ];
+        }
+        return $data;
+    }
 
 }
 
