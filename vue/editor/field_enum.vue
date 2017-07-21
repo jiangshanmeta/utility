@@ -1,5 +1,5 @@
 <template>
-    <el-select v-model="currentValue">
+    <el-select v-model="currentValue" :placeholder="placeholder">
         <el-option v-for="item in candidate" :key="item.value" :value="item.value" :label="item.label">
 
         </el-option>
@@ -23,6 +23,9 @@ export default{
         candidate:{
             type:Array,
             required:true,
+        },
+        placeholder:{
+            default:'',
         }
     },
     watch:{

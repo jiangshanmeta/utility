@@ -1,11 +1,15 @@
 <template>
-    <el-input v-model="currentValue" :placeholder="placeholder"></el-input>
+    <el-select v-model="currentValue" :placeholder="placeholder" filterable>
+        <el-option v-for="item in candidate" :key="item.value" :value="item.value" :label="item.label">
+
+        </el-option>
+    </el-select>
 </template>
 
 <script>
 import {formHelper} from "./mixins"
 export default{
-    data(){
+    data (){
         return {
             currentValue:this.value,
         }
@@ -13,14 +17,15 @@ export default{
     mixins:[formHelper],
     props:{
         value:{
-            // type:String,
-            default:'',
+
+        },
+        candidate:{
+            type:Array,
+            required:true,
         },
         placeholder:{
             default:'',
-        }
-    },
-    watch:{
+        },
 
     },
     created(){

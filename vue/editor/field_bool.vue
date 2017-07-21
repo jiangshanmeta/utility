@@ -2,6 +2,7 @@
     <field-enum 
         v-model="currentValue" 
         :candidate="candidate"
+        :placeholder="placeholder"
     ></field-enum>
 
 </template>
@@ -28,6 +29,9 @@ export default{
         value:{
             type:Number,
             default:0,
+        },
+        placeholder:{
+            default:'',
         }
     },
     components:{

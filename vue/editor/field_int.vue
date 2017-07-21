@@ -3,6 +3,7 @@
         :value="currentValue"
         @change="handleInput" 
         ref="input"
+        :placeholder="placeholder"
     ></el-input>
 </template>
 
@@ -19,6 +20,9 @@ export default{
         value:{
             type:Number,
             default:0
+        },
+        placeholder:{
+            default:'',
         }
     },
     watch:{
